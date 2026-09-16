@@ -47,7 +47,13 @@ hugo new content posts/my-new-note.md
 
 `hugo server -D` 会展示草稿；正式构建不会发布草稿和未来日期文章。公开仓库里的草稿源文件仍可被他人看到，私人笔记应放在仓库之外。
 
-## 常用修改
+## 专栏
+
+已设置 OS、AI 和论文三个专栏。在文章开头的 YAML 配置中添加 `categories: ["OS"]`、`categories: ["AI"]` 或 `categories: ["papers"]`，文章就会出现在对应专栏中（`papers` 在页面上显示为“论文”）。跨主题文章可以填写 `categories: ["AI", "papers"]`。标签仍使用 `tags`，可自由细分。
+
+专栏介绍位于 `content/categories/` 下的 `os`、`ai` 和 `papers` 目录。没有文章时，专栏显示空状态，不会自动加入示例文章。
+
+## 常用修改位置
 
 - 网站名称、首页简介：`hugo.toml`
 - 个人介绍：`content/about.md`

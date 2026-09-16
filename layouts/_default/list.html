@@ -3,6 +3,6 @@
 {{ if eq .Kind "taxonomy" }}
 <div class="tag-cloud">{{ range .Pages }}<a href="{{ .RelPermalink }}"># {{ .Title }} <span>{{ .Pages.Len }}</span></a>{{ end }}</div>
 {{ else }}
-{{ range .Pages.ByDate.Reverse }}{{ partial "post-card.html" . }}{{ end }}
+{{ range .Pages.ByDate.Reverse }}{{ partial "post-card.html" . }}{{ else }}<p class="empty-state">这个专栏还没有文章，敬请期待。</p>{{ end }}
 {{ end }}
 {{ end }}

@@ -3,6 +3,6 @@
   <header class="page-heading"><a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a><h1>{{ .Title }}</h1>{{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span></div>{{ end }}<p>{{ .Description }}</p></header>
   {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}<details class="toc" open><summary>本文目录</summary>{{ .TableOfContents }}</details>{{ end }}
   <div class="prose">{{ .Content }}</div>
-  <div class="tags">{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
+  <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
 </article>
 {{ end }}

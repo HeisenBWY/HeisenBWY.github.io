@@ -4,6 +4,7 @@ date: '{{ .Date }}'
 draft: true
 description: ''
 tags: []
+categories: []
 ---
 
 ## 问题

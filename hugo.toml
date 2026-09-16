@@ -10,6 +10,7 @@ enableRobotsTXT = true
 
 [taxonomies]
   tag = 'tags'
+  category = 'categories'
 
 [markup.highlight]
   style = 'github'
