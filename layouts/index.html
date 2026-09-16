@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="hero">
+  <p class="eyebrow">HEISENBWY'S DIGITAL NOTEBOOK</p>
+  <h1>把探索的过程，<br>写成自己的<span>知识地图。</span></h1>
+  <p class="intro">{{ site.Params.description }}<br>这里收集技术学习、问题排查，以及那些值得留下的思考。</p>
+  <a class="button" href="{{ "posts/" | relURL }}">开始阅读 <span>↗</span></a>
+  <div class="hero-note" aria-hidden="true"><span>随学 · 随记</span><strong>Learn.<br>Build.<br>Document.</strong><small>一点一滴，自成体系。</small></div>
+</section>
+<section class="latest">
+  <div class="section-head"><div><p class="eyebrow">THE LATEST</p><h2>最近的记录</h2></div><a href="{{ "posts/" | relURL }}">全部文章 →</a></div>
+  {{ range first 6 (where site.RegularPages "Section" "posts") }}{{ partial "post-card.html" . }}{{ else }}<p>第一篇笔记正在路上。</p>{{ end }}
+</section>
+{{ end }}

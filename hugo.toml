@@ -1,0 +1,19 @@
+baseURL = 'https://heisenbwy.github.io/'
+locale = 'zh-CN'
+defaultContentLanguage = 'zh'
+title = 'HeisenBWY · 技术笔记'
+hasCJKLanguage = true
+enableRobotsTXT = true
+
+[params]
+  description = '记录技术，整理思考，让知识慢慢生长。'
+
+[taxonomies]
+  tag = 'tags'
+
+[markup.highlight]
+  style = 'github'
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ site.Title }}</title>
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+  {{ with site.Home.OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">{{ end }}
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+  <header class="header wrap">
+    <a class="brand" href="{{ "" | relURL }}"><span class="mark">H.</span> HeisenBWY<span class="brand-note"> / 技术笔记</span></a>
+    <nav aria-label="主导航">
+      <a href="{{ "posts/" | relURL }}">文章</a>
+      <a href="{{ "tags/" | relURL }}">标签</a>
+      <a href="{{ "about/" | relURL }}">关于</a>
+      <a href="https://github.com/HeisenBWY">GitHub ↗</a>
+    </nav>
+  </header>
+  <main id="main" class="wrap">{{ block "main" . }}{{ end }}</main>
+  <footer class="wrap footer"><span>© {{ now.Year }} HeisenBWY · 持续学习，认真记录。</span><a href="{{ "index.xml" | relURL }}">RSS 订阅 ↗</a></footer>
+</body>
+</html>
