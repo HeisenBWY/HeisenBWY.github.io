@@ -1,8 +1,12 @@
 {{ define "main" }}
+{{ if .Params.os_hub }}
+{{ partial "os-hub.html" . }}
+{{ else }}
 <section class="page-heading"><p class="eyebrow">NOTEBOOK / {{ .Pages.Len }} 条记录</p><h1>{{ .Title }}</h1>{{ .Content }}</section>
 {{ if eq .Kind "taxonomy" }}
 <div class="tag-cloud">{{ range .Pages }}<a href="{{ .RelPermalink }}"># {{ .Title }} <span>{{ .Pages.Len }}</span></a>{{ end }}</div>
 {{ else }}
 {{ range .Pages.ByDate.Reverse }}{{ partial "post-card.html" . }}{{ else }}<p class="empty-state">这个专栏还没有文章，敬请期待。</p>{{ end }}
+{{ end }}
 {{ end }}
 {{ end }}

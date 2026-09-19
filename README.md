@@ -53,6 +53,8 @@ hugo new content posts/my-new-note.md
 
 专栏介绍位于 `content/categories/` 下的 `os`、`ai` 和 `papers` 目录。没有文章时，专栏显示空状态，不会自动加入示例文章。
 
+OS 首页使用专题导航布局，专题名称、简介、标签和当前主线在 `content/categories/os/_index.md` 的 `topics` 中维护。文章同时设置 `categories: ["OS"]` 和相应专题的标签（例如 `tags: ["Linux", "内存管理"]`），就会自动出现在对应专题下，按日期从早到晚排列；草稿只在草稿预览中显示。多个专题标签会让文章出现在多个专题中。添加新专题时，在 `topics` 中增加唯一 `id` 和对应 `tag`。展示模板为 `layouts/partials/os-hub.html`。
+
 ## 常用修改位置
 
 - 网站名称、首页简介：`hugo.toml`
