@@ -36,6 +36,7 @@
       <div class="os-topic-top"><h3 id="topic-{{ .id }}">{{ .title }}</h3><span class="os-status">{{ if .focus }}当前主线{{ else if $articles }}持续整理{{ else }}待展开{{ end }}</span></div>
       <p class="os-question">{{ .question }}</p>
       <p class="os-scope">{{ .scope }}</p>
+      {{ with .page }}{{ with site.GetPage . }}<a class="os-map-link" href="{{ .RelPermalink }}">查看知识地图与研究计划 <span aria-hidden="true">→</span></a>{{ end }}{{ end }}
       {{ if $articles }}
       <ul class="os-article-list">
         {{ range $articles.ByDate }}<li><a href="{{ .RelPermalink }}">{{ .Title }} <span aria-hidden="true">→</span></a>{{ if .Draft }}<small>草稿预览</small>{{ end }}</li>{{ end }}

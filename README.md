@@ -55,6 +55,10 @@ hugo new content posts/my-new-note.md
 
 OS 首页使用专题导航布局，专题名称、简介、标签和当前主线在 `content/categories/os/_index.md` 的 `topics` 中维护。文章同时设置 `categories: ["OS"]` 和相应专题的标签（例如 `tags: ["Linux", "内存管理"]`），就会自动出现在对应专题下，按日期从早到晚排列；草稿只在草稿预览中显示。多个专题标签会让文章出现在多个专题中。添加新专题时，在 `topics` 中增加唯一 `id` 和对应 `tag`。展示模板为 `layouts/partials/os-hub.html`。
 
+内存管理知识地图位于 `content/os/memory/index.md`，访问路径为 `/os/memory/`。在 front matter 的 `modules` 中维护模块，每个 `questions` 条目填写 `title`：默认显示“待研究”，加 `status: researching` 显示“研究中”；文章发布后填写 `article: /posts/文章文件名`，页面会自动显示文章链接和“已有文章”。只有构建中存在的文章才会生成链接，草稿预览单独标识；统计中的文章数按已发布文章去重。不要因为模块有一篇文章就把整个模块视为完成。
+
+OS 首页的专题条目通过 `page: /os/memory` 连接知识地图。文章可添加 `topic_page: /os/memory`，在文末显示返回知识地图的入口。其他专题可复用 `layout: topic-map` 和相同的模块字段。
+
 ## 常用修改位置
 
 - 网站名称、首页简介：`hugo.toml`

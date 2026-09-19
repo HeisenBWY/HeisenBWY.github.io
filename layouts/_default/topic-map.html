@@ -1,0 +1,59 @@
+{{ define "main" }}
+{{ $published := slice }}
+{{ $questionCount := 0 }}
+{{ range .Params.modules }}
+  {{ range .questions }}
+    {{ $questionCount = add $questionCount 1 }}
+    {{ with .article }}{{ with site.GetPage . }}{{ if not .Draft }}{{ $published = $published | append .RelPermalink }}{{ end }}{{ end }}{{ end }}
+  {{ end }}
+{{ end }}
+<section class="page-heading os-heading">
+  <a class="back" href="{{ "categories/os/" | relURL }}">← OS 专栏</a>
+  <p class="eyebrow memory-eyebrow">MEMORY MANAGEMENT / 知识地图</p>
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <div class="os-meta"><span>{{ len .Params.modules }} 个模块</span><span>{{ $questionCount }} 个研究问题</span><span>{{ len (uniq $published) }} 篇已有文章</span></div>
+</section>
+<section class="memory-start" aria-labelledby="memory-route-title">
+  <p class="eyebrow">LEARNING PATH / 推荐路线</p>
+  <h2 id="memory-route-title">先沿一次内存申请，串起基本机制</h2>
+  <ol class="memory-route">
+    <li><a href="#overview">全景与概念</a></li>
+    <li><a href="#address-space">进程地址空间</a></li>
+    <li><a href="#page-tables">页表与缺页</a></li>
+    <li><a href="#physical-memory">物理内存组织</a></li>
+    <li><a href="#allocators">物理页与对象分配</a></li>
+  </ol>
+  <p>完成这条主线后，再研究文件缓存、回收与资源限制。观测和实验可以贯穿各阶段，无需等读完所有源码才开始。</p>
+</section>
+<div class="memory-layout">
+  <nav class="memory-nav" aria-label="内存管理模块导航">
+    <strong>知识模块</strong>
+    <ol>{{ range .Params.modules }}<li><a href="#{{ .id }}">{{ .title }}</a></li>{{ end }}</ol>
+  </nav>
+  <div class="memory-modules">
+    <p class="memory-legend">进度说明：待研究 · 研究中 · 已有文章。已有文章表示这个问题已有笔记，不代表整个模块已经完成。</p>
+    {{ range $index, $module := .Params.modules }}
+    <section class="memory-module" id="{{ .id }}" aria-labelledby="module-{{ .id }}">
+      <p class="eyebrow">MODULE {{ printf "%02d" (add $index 1) }}</p>
+      <h2 id="module-{{ .id }}">{{ .title }}</h2>
+      <p class="memory-scope">{{ .scope }}</p>
+      <ul class="memory-questions">
+        {{ range .questions }}
+        {{ $article := false }}
+        {{ with .article }}{{ $article = site.GetPage . }}{{ end }}
+        <li>
+          {{ if $article }}
+          <a href="{{ $article.RelPermalink }}">{{ .title }} <span aria-hidden="true">→</span></a>
+          <span class="memory-status{{ if not $article.Draft }} memory-status-ready{{ end }}">{{ if $article.Draft }}草稿预览{{ else }}已有文章{{ end }}</span>
+          {{ else }}
+          <span>{{ .title }}</span><span class="memory-status{{ if eq .status "researching" }} memory-status-active{{ end }}">{{ if eq .status "researching" }}研究中{{ else }}待研究{{ end }}</span>
+          {{ end }}
+        </li>
+        {{ end }}
+      </ul>
+    </section>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

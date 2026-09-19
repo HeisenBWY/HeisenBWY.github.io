@@ -5,6 +5,7 @@ os_hub: true
 topics:
   - id: memory
     title: 内存管理
+    page: /os/memory
     tag: 内存管理
     focus: true
     question: 程序使用的内存从哪里来，不够用时怎么办？

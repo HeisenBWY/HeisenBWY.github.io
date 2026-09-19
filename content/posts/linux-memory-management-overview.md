@@ -4,6 +4,7 @@ date: 2026-09-19T12:00:00+08:00
 draft: false
 description: "从一次内存申请出发，串起虚拟地址、页表、物理页、Buddy、SLUB、Page Cache 与内存回收，建立阅读 Linux 内存管理源码的第一张地图。"
 categories: ["OS"]
+topic_page: /os/memory
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
