@@ -12,6 +12,7 @@ modules:
       - title: page 与 folio 分别描述什么，为什么需要两种抽象？
         article: /posts/linux-page-and-folio
       - title: 虚拟内存、驻留内存与物理内存占用有什么区别？
+        article: /posts/linux-virtual-resident-physical-memory
   - id: address-space
     title: 进程地址空间
     scope: mm_struct、VMA、堆与栈、brk、mmap、映射生命周期。
