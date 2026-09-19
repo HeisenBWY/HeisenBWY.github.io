@@ -5,6 +5,10 @@ draft: false
 description: "从一次内存申请出发，串起虚拟地址、页表、物理页、Buddy、SLUB、Page Cache 与内存回收，建立阅读 Linux 内存管理源码的第一张地图。"
 categories: ["OS"]
 topic_page: /os/memory
+series: memory-foundations
+series_title: 内存管理基础
+series_order: 1
+next_post: /posts/linux-page-and-folio
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -14,7 +18,9 @@ tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 
 本文先把这些问题串起来，建立后续做实验、读源码时可以反复使用的地图。
 
-> 源码基线：本地 openEuler 内核仓库，分支 `OLK-6.6`，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。该分支包含发行版扩展和回合补丁，不能视为未经修改的上游 Linux 6.6。下文主要讨论有 MMU 的常见 Linux 系统；具体行为还取决于体系结构、内核配置和运行参数。本文没有给出实测数据。
+{{< source-baseline >}}
+源码基线：本地 openEuler 内核仓库，分支 `OLK-6.6`，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。该分支包含发行版扩展和回合补丁，不能视为未经修改的上游 Linux 6.6。下文主要讨论有 MMU 的常见 Linux 系统；具体行为还取决于体系结构、内核配置和运行参数。本文没有给出实测数据。
+{{< /source-baseline >}}
 
 ## 1. 先区分三个层面
 
@@ -28,7 +34,11 @@ Linux 内存管理同时处理地址、存储和策略。很多困惑，来自�
 
 例如，一个进程申请了一段地址空间，不代表系统已经为整个区间分配了物理内存；系统还有空闲物理页，也不代表任意一种分配请求都能成功。
 
-下面从进程的视角开始。
+下面这张图把地址映射、物理页分配、内核对象分配、文件缓存和压力回收放进同一张地图；后文会沿着这些连接逐层展开。
+
+{{< archify-diagram src="/diagrams/linux-memory-management-overview/memory-map.html" title="Linux 内存管理全景关系图" caption="从进程虚拟地址一路看到物理页、分配器、Page Cache 与回收路径。" >}}
+
+这张图最重要的边界是：地址空间、物理页分配和内存压力管理属于不同层面，却会在缺页、缓存和回收路径上相互连接。下面从进程的视角开始。
 
 ## 2. 程序拿到的地址，不是物理内存的位置
 

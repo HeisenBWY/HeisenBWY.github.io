@@ -1,6 +1,12 @@
 {{ define "main" }}
 <article class="article">
-  <header class="page-heading"><a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a><h1>{{ .Title }}</h1>{{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span></div>{{ end }}<p>{{ .Description }}</p></header>
+  <header class="page-heading article-heading">
+    {{ with .Params.topic_page }}{{ with site.GetPage . }}<a class="back" href="{{ .RelPermalink }}">← {{ .Title }}知识地图</a>{{ end }}{{ else }}<a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a>{{ end }}
+    {{ with .Params.series_title }}<p class="article-kicker">OS / {{ . }}{{ with $.Params.series_order }} / {{ printf "%02d" . }}{{ end }}</p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span><span>{{ .WordCount }} 字</span></div>{{ end }}
+    <p class="article-deck">{{ .Description }}</p>
+  </header>
   {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}
   <details class="side-toc" aria-label="文章目录">
     <summary aria-label="展开或收起文章目录">目录</summary>
@@ -9,7 +15,13 @@
   <script src="{{ "js/side-toc.js" | relURL }}" defer></script>
   {{ end }}
   <div class="prose">{{ .Content }}</div>
-  {{ with .Params.topic_page }}{{ with site.GetPage . }}<p class="memory-back"><a href="{{ .RelPermalink }}">← 返回{{ .Title }}知识地图</a></p>{{ end }}{{ end }}
+  {{ if or .Params.previous_post .Params.next_post }}
+  <nav class="article-nav" aria-label="系列文章导航">
+    {{ with .Params.previous_post }}{{ with site.GetPage . }}<a class="article-nav-prev" href="{{ .RelPermalink }}"><span>上一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
+    {{ with .Params.next_post }}{{ with site.GetPage . }}<a class="article-nav-next" href="{{ .RelPermalink }}"><span>下一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
+  </nav>
+  {{ end }}
+  {{ with .Params.topic_page }}{{ with site.GetPage . }}<p class="memory-back"><a href="{{ .RelPermalink }}">查看完整的{{ .Title }}知识地图 →</a></p>{{ end }}{{ end }}
   <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
 </article>
 {{ end }}

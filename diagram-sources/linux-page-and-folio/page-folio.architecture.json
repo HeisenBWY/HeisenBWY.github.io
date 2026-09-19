@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "page 与 folio：基本页和整体对象",
+    "locale": "zh-CN",
+    "output": "page-folio.html",
+    "quality_profile": "showcase",
+    "viewBox": [1080, 680]
+  },
+  "components": [
+    { "id": "physical", "type": "database", "label": "连续物理数据", "sublabel": "order 2：4 × PAGE_SIZE", "pos": [55, 275], "size": [165, 70] },
+    { "id": "descriptors", "type": "database", "label": "4 个 struct page", "sublabel": "1 个 head + 3 个 tail", "pos": [285, 275], "size": [170, 70] },
+    { "id": "page_pointer", "type": "backend", "label": "struct page *", "sublabel": "可能指向 head 或 tail", "pos": [520, 275], "size": [165, 70] },
+    { "id": "folio", "type": "backend", "label": "struct folio *", "sublabel": "始终代表整个对象", "pos": [755, 275], "size": [170, 70] },
+    { "id": "single_page", "type": "external", "label": "某个基本页", "sublabel": "folio 内编号 n", "pos": [755, 470], "size": [150, 66] },
+    { "id": "order_zero", "type": "external", "label": "order 0 folio", "sublabel": "只包含 1 个基本页", "pos": [755, 80], "size": [160, 66] }
+  ],
+  "connections": [
+    { "id": "metadata", "from": "physical", "to": "descriptors", "label": "每个基本页有描述符", "labelDy": -29 },
+    { "id": "select_page", "from": "descriptors", "to": "page_pointer", "label": "可以定位任一组成页", "labelDy": 59 },
+    { "id": "to_folio", "from": "page_pointer", "to": "folio", "label": "page_folio() 归一到 head", "variant": "emphasis", "labelDy": -29 },
+    { "id": "to_page", "from": "folio", "to": "single_page", "label": "folio_page(folio, n)", "fromSide": "bottom", "toSide": "top", "labelDx": 84 },
+    { "id": "small_folio", "from": "order_zero", "to": "folio", "label": "folio 不一定是大页", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDx": 80 }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "page 的语义", "items": ["描述基本页元数据，也可能作为传统接口中的复合页指针", "仅看 struct page * 类型，不能判断调用方想处理一个页还是整个对象"] },
+    { "dot": "cyan", "title": "folio 的语义", "items": ["类型约定指向独立页或复合页头部", "接口可以明确按整个单页或复合页对象工作"] },
+    { "dot": "orange", "title": "转换边界", "items": ["尾页不能直接强转为 folio", "转换不增加引用计数，也不替调用者处理并发生命周期"] }
+  ]
+}

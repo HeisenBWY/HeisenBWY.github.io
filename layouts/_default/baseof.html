@@ -7,6 +7,7 @@
   <meta name="description" content="{{ .Description | default site.Params.description }}">
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+  {{ if and .IsPage (eq .Section "posts") }}<link rel="stylesheet" href="{{ "css/article.css" | relURL }}">{{ end }}
   {{ with site.Home.OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">{{ end }}
 </head>
 <body>

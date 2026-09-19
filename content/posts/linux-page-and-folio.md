@@ -5,6 +5,11 @@ draft: false
 description: "从基本页、复合页的头页与尾页出发，理解 folio 的接口语义、与 struct page 的内存布局关系，以及两种抽象为什么需要共存。"
 categories: ["OS"]
 topic_page: /os/memory
+series: memory-foundations
+series_title: 内存管理基础
+series_order: 2
+previous_post: /posts/linux-memory-management-overview
+next_post: /posts/linux-virtual-resident-physical-memory
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -14,7 +19,9 @@ tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 
 要理解为什么需要 folio，关键在于：过去一个 `struct page *` 参数，既可能表示一个基本页，也可能代表整个复合页。仅凭指针类型，无法区分这两种含义。
 
-> 源码基线：openEuler 内核 `OLK-6.6` 分支，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。该分支包含发行版扩展与回合补丁，结构字段和实现细节以此提交为准。本文是概念与源码阅读笔记，没有运行内核实验；涉及容量的例子假设基本页大小为 4 KiB。
+{{< source-baseline >}}
+源码基线：openEuler 内核 `OLK-6.6` 分支，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。该分支包含发行版扩展与回合补丁，结构字段和实现细节以此提交为准。本文是概念与源码阅读笔记，没有运行内核实验；涉及容量的例子假设基本页大小为 4 KiB。
+{{< /source-baseline >}}
 
 ## 1. 先区分物理页与 struct page
 
@@ -70,6 +77,12 @@ page 描述符： [ head  ][ tail  ][ tail  ][ tail  ]
 | large folio | `2^order`，且 order 大于 0 | 复合页的头部位置 |
 
 folio 指针不会用尾页的位置来表示整个对象。拿到 `struct folio *` 后，接口可以明确按整体理解参数，而不用先猜它是不是一个尾页。
+
+下图从同一组基本页出发，对比 `page` 的逐页视角和 `folio` 的整体视角，并标出两种接口之间的转换边界。
+
+{{< archify-diagram src="/diagrams/linux-page-and-folio/page-folio.html" title="page 与 folio 的抽象关系图" caption="page 描述基本页位置；folio 从头页位置表达一个整体管理单元。" >}}
+
+图中的关键边界是：任意组成页都可以先归一到所属 folio，但表示整个对象的 folio 指针不会落在尾页上。
 
 引入 folio 的原始补丁说明了这个约定：接收 folio 的函数以整个可能为复合页的对象为操作对象，调用者保证传入的指针不指向尾页。参见 Matthew Wilcox 的 [Introduce struct folio 补丁说明](https://lists.openwall.net/linux-kernel/2021/07/15/99)。
 

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Linux 内存管理：从进程地址到物理内存",
+    "locale": "zh-CN",
+    "output": "memory-map.html",
+    "quality_profile": "showcase",
+    "viewBox": [1120, 700]
+  },
+  "components": [
+    { "id": "process", "type": "external", "label": "用户进程", "sublabel": "malloc / mmap / 读写地址", "pos": [40, 285], "size": [140, 68] },
+    { "id": "address_space", "type": "backend", "label": "进程地址空间", "sublabel": "mm_struct 与 VMA", "pos": [235, 285], "size": [150, 68] },
+    { "id": "fault", "type": "backend", "label": "页表与缺页处理", "sublabel": "映射、权限、按需分配", "pos": [440, 285], "size": [160, 68] },
+    { "id": "allocator", "type": "backend", "label": "物理页分配", "sublabel": "Zone、Buddy、GFP", "pos": [655, 285], "size": [150, 68] },
+    { "id": "ram", "type": "database", "label": "物理内存", "sublabel": "page / folio", "pos": [860, 285], "size": [145, 68] },
+    { "id": "page_cache", "type": "database", "label": "Page Cache", "sublabel": "文件页、预读与写回", "pos": [440, 90], "size": [160, 68] },
+    { "id": "kernel_alloc", "type": "backend", "label": "内核对象与虚拟区", "sublabel": "SLUB / kmalloc / vmalloc", "pos": [655, 480], "size": [170, 68] },
+    { "id": "reclaim", "type": "backend", "label": "压力管理", "sublabel": "回收、Swap、规整、OOM", "pos": [860, 480], "size": [170, 68] }
+  ],
+  "connections": [
+    { "id": "request", "from": "process", "to": "address_space", "label": "建立或使用地址", "labelDy": -28 },
+    { "id": "resolve", "from": "address_space", "to": "fault", "label": "访问触发检查", "labelDy": 58 },
+    { "id": "allocate", "from": "fault", "to": "allocator", "label": "需要新页时申请", "variant": "emphasis", "labelDy": -28 },
+    { "id": "provide", "from": "allocator", "to": "ram", "label": "选择 Node / Zone", "labelAt": [833, 266] },
+    { "id": "file_mapping", "from": "page_cache", "to": "fault", "label": "文件映射提供缓存页", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "kernel_pages", "from": "allocator", "to": "kernel_alloc", "label": "提供底层页", "fromSide": "bottom", "toSide": "top", "labelDx": 58 },
+    { "id": "pressure", "from": "ram", "to": "reclaim", "label": "可用页接近水位", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "labelDx": 72 },
+    { "id": "free_pages", "from": "reclaim", "to": "allocator", "label": "恢复可分配空间", "variant": "dashed", "fromSide": "left", "toSide": "bottom", "labelDy": 24 }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "地址视角", "items": ["VMA 描述可访问区域，页表记录当前映射", "建立地址空间不等于所有物理页已经驻留"] },
+    { "dot": "cyan", "title": "分配视角", "items": ["Buddy 提供物理页，SLUB 在页上管理小对象", "Page Cache、匿名页和内核对象最终竞争物理内存"] },
+    { "dot": "orange", "title": "压力视角", "items": ["回收与规整解决的问题不同", "具体失败路径受 GFP、Zone、NUMA 与 cgroup 等约束"] }
+  ]
+}

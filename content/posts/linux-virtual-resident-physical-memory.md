@@ -5,6 +5,10 @@ draft: false
 description: "从 VmSize、RSS、PSS 到 MemFree 与 MemAvailable，通过地址空间和共享页算例，理解不同内存统计的范围、重叠与边界。"
 categories: ["OS"]
 topic_page: /os/memory
+series: memory-foundations
+series_title: 内存管理基础
+series_order: 3
+previous_post: /posts/linux-page-and-folio
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -12,7 +16,9 @@ tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 
 **这些数字回答的是不同问题：虚拟内存大小描述地址空间，RSS 描述进程映射中驻留的内存，系统物理内存统计描述整机 RAM 的使用情况。** 如果不先确定统计范围，“内存占用”就很容易成为一个含义不明的数字。
 
-> 源码基线：openEuler 内核 `OLK-6.6` 分支，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。本文数值均为便于理解的假设算例，不是实测结果。默认讨论普通 RAM 映射；HugeTLB 等特殊统计在后文单独说明。
+{{< source-baseline >}}
+源码基线：openEuler 内核 `OLK-6.6` 分支，提交 `458474c39f01`，Makefile 版本为 `6.6.0`。本文数值均为便于理解的假设算例，不是实测结果。默认讨论普通 RAM 映射；HugeTLB 等特殊统计在后文单独说明。
+{{< /source-baseline >}}
 
 ## 1. 三个视角，三种问题
 

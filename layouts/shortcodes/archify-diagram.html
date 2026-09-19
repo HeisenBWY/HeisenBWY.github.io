@@ -1,0 +1,8 @@
+{{ $src := .Get "src" }}
+{{ $title := .Get "title" }}
+<figure class="kernel-diagram">
+  <div class="kernel-diagram-frame">
+    <iframe src="{{ $src }}?embed=1&theme=light" title="{{ $title }}" loading="lazy"></iframe>
+  </div>
+  <figcaption>{{ .Get "caption" }} <a href="{{ $src }}" target="_blank" rel="noopener">打开完整交互图 ↗</a></figcaption>
+</figure>
