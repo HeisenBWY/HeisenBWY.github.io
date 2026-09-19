@@ -4,7 +4,7 @@
   {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}
   <details class="side-toc" aria-label="文章目录">
     <summary aria-label="展开或收起文章目录">目录</summary>
-    <div class="side-toc-panel"><div class="side-toc-heading"><strong>本文目录</strong><label class="side-toc-pin" hidden><input type="checkbox"> 固定目录</label></div>{{ .TableOfContents }}</div>
+    <div class="side-toc-panel"><div class="side-toc-heading"><strong>本文目录</strong><button class="side-toc-pin" type="button" aria-label="固定目录" aria-pressed="false" title="固定目录" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7l-1.1 1.1 2.6 2.6 1.1-1.1A1 1 0 1 1 20.7 8.7l-4 4 .6 3.2a1 1 0 0 1-1.7.9l-3.3-3.3-5.6 5.6a1 1 0 0 1-1.4-1.4l5.6-5.6-3.3-3.3a1 1 0 0 1 .9-1.7l3.2.6 4-4A1 1 0 0 1 16 3Z"/></svg></button></div>{{ .TableOfContents }}</div>
   </details>
   <script src="{{ "js/side-toc.js" | relURL }}" defer></script>
   {{ end }}

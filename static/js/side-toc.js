@@ -2,22 +2,24 @@
   const toc = document.querySelector('.side-toc');
   if (!toc) return;
   const toggle = toc.querySelector('summary');
-  const pinLabel = toc.querySelector('.side-toc-pin');
-  const pin = pinLabel.querySelector('input');
+  const pin = toc.querySelector('.side-toc-pin');
   const storageKey = 'blog-toc-pinned';
-  try { pin.checked = localStorage.getItem(storageKey) === 'true'; } catch {}
-  pinLabel.hidden = false;
-  if (pin.checked) toc.open = true;
-  const unpin = () => {
-    pin.checked = false;
-    try { localStorage.setItem(storageKey, 'false'); } catch {}
+  let pinned = false;
+  try { pinned = localStorage.getItem(storageKey) === 'true'; } catch {}
+  pin.hidden = false;
+  const setPinned = (value) => {
+    pinned = value;
+    toc.classList.toggle('is-pinned', pinned);
+    pin.setAttribute('aria-pressed', String(pinned));
+    pin.setAttribute('aria-label', pinned ? '取消固定目录' : '固定目录');
+    pin.title = pinned ? '取消固定目录' : '固定目录';
+    if (pinned) toc.open = true;
+    try { localStorage.setItem(storageKey, String(pinned)); } catch {}
   };
-  pin.addEventListener('change', () => {
-    try { localStorage.setItem(storageKey, String(pin.checked)); } catch {}
-    if (pin.checked) toc.open = true;
-  });
+  setPinned(pinned);
+  pin.addEventListener('click', () => setPinned(!pinned));
   toggle.addEventListener('click', () => {
-    if (toc.open && pin.checked) unpin();
+    if (toc.open && pinned) setPinned(false);
   });
   let keyboard = false;
   document.addEventListener('keydown', () => { keyboard = true; });
@@ -26,24 +28,24 @@
     if (event.pointerType === 'mouse') toc.open = true;
   });
   toc.addEventListener('pointerleave', (event) => {
-    if (!pin.checked && event.pointerType === 'mouse' && !(keyboard && toc.contains(document.activeElement))) {
+    if (!pinned && event.pointerType === 'mouse' && !(keyboard && toc.contains(document.activeElement))) {
       toc.open = false;
     }
   });
   toc.addEventListener('focusout', () => {
     requestAnimationFrame(() => {
-      if (!pin.checked && !toc.contains(document.activeElement) && !toc.matches(':hover')) toc.open = false;
+      if (!pinned && !toc.contains(document.activeElement) && !toc.matches(':hover')) toc.open = false;
     });
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && toc.open) {
-      unpin();
+      setPinned(false);
       if (toc.contains(document.activeElement)) toggle.focus();
       toc.open = false;
     }
   });
   document.addEventListener('pointerdown', (event) => {
-    if (!pin.checked && !toc.contains(event.target)) toc.open = false;
+    if (!pinned && !toc.contains(event.target)) toc.open = false;
   });
   toc.addEventListener('click', (event) => {
     const link = event.target.closest('a[href^="#"]');
@@ -54,6 +56,6 @@
       heading.focus({ preventScroll: true });
       heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
     }
-    if (!pin.checked) toc.open = false;
+    if (!pinned) toc.open = false;
   });
 })();
