@@ -10,6 +10,7 @@ modules:
       - title: Linux 内存管理全景入门
         article: /posts/linux-memory-management-overview
       - title: page 与 folio 分别描述什么，为什么需要两种抽象？
+        article: /posts/linux-page-and-folio
       - title: 虚拟内存、驻留内存与物理内存占用有什么区别？
   - id: address-space
     title: 进程地址空间
