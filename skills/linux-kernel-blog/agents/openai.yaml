@@ -1,0 +1,7 @@
+interface:
+  display_name: "Linux Kernel Blog"
+  short_description: "撰写并呈现结构统一的 Linux 内核研究文章"
+  brand_color: "#38634C"
+  default_prompt: "Use $linux-kernel-blog to research and draft the next Linux kernel article for this Hugo blog."
+policy:
+  allow_implicit_invocation: true
