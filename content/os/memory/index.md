@@ -18,6 +18,7 @@ modules:
     scope: mm_struct、VMA、堆与栈、brk、mmap、映射生命周期。
     questions:
       - title: mm_struct 和 VMA 如何描述一个进程的地址空间？
+        article: /posts/linux-mm-struct-and-vma
       - title: malloc、brk 与 mmap 是什么关系？
       - title: 从建立映射到 munmap，地址空间经历了哪些变化？
   - id: page-tables

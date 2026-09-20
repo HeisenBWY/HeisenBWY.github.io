@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "mm_struct 与 VMA 如何共同描述进程地址空间",
+    "locale": "zh-CN",
+    "output": "address-space.html",
+    "quality_profile": "showcase",
+    "viewBox": [1160, 720]
+  },
+  "components": [
+    {
+      "id": "task",
+      "type": "external",
+      "label": "task_struct",
+      "sublabel": "当前任务",
+      "pos": [45, 275],
+      "size": [150, 70]
+    },
+    {
+      "id": "mm",
+      "type": "backend",
+      "label": "mm_struct",
+      "sublabel": "一个用户地址空间的全局上下文",
+      "pos": [250, 275],
+      "size": [210, 70]
+    },
+    {
+      "id": "maple",
+      "type": "database",
+      "label": "Maple Tree：mm_mt",
+      "sublabel": "按虚拟地址索引 VMA 区间",
+      "pos": [535, 115],
+      "size": [205, 70]
+    },
+    {
+      "id": "vmas",
+      "type": "cloud",
+      "label": "vm_area_struct",
+      "sublabel": "[vm_start, vm_end) 的映射规则",
+      "pos": [825, 115],
+      "size": [220, 70]
+    },
+    {
+      "id": "pgd",
+      "type": "backend",
+      "label": "pgd",
+      "sublabel": "页表根",
+      "pos": [535, 435],
+      "size": [155, 70]
+    },
+    {
+      "id": "page_tables",
+      "type": "security",
+      "label": "多级页表项",
+      "sublabel": "虚拟页到页帧的翻译与属性",
+      "pos": [760, 435],
+      "size": [205, 70]
+    },
+    {
+      "id": "physical",
+      "type": "database",
+      "label": "物理页 / 交换项",
+      "sublabel": "按需建立，并非每个 VMA 都已驻留",
+      "pos": [760, 575],
+      "size": [220, 70]
+    }
+  ],
+  "connections": [
+    { "id": "task-mm", "from": "task", "to": "mm", "label": "mm 指针", "variant": "emphasis" },
+    { "id": "mm-maple", "from": "mm", "to": "maple", "label": "持有区间索引", "fromSide": "top", "toSide": "left" },
+    { "id": "maple-vma", "from": "maple", "to": "vmas", "label": "查找包含地址的 VMA", "variant": "emphasis", "labelDy": 59 },
+    { "id": "mm-pgd", "from": "mm", "to": "pgd", "label": "持有页表根", "fromSide": "bottom", "toSide": "left" },
+    { "id": "pgd-tables", "from": "pgd", "to": "page_tables", "label": "逐级遍历" },
+    { "id": "tables-physical", "from": "page_tables", "to": "physical", "label": "映射、缺页或换出", "fromSide": "bottom", "toSide": "top", "variant": "dashed" },
+    { "id": "vma-tables", "from": "vmas", "to": "page_tables", "label": "约束缺页处理与访问权限", "fromSide": "bottom", "toSide": "top", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "VMA 回答“这一段允许怎样使用”",
+      "items": ["区间、权限、映射类型与后备对象", "相邻兼容区间可以合并，修改时也可能拆分"]
+    },
+    {
+      "dot": "emerald",
+      "title": "页表回答“这一页当前映射到哪里”",
+      "items": ["VMA 存在不代表页表项已经建立", "缺页处理可根据 VMA 规则按需分配或装入页面"]
+    },
+    {
+      "dot": "orange",
+      "title": "mm_struct 是汇合点",
+      "items": ["管理 VMA 索引、页表根、地址布局和统计", "同一线程组通常共享 mm_struct"]
+    }
+  ]
+}
