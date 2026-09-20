@@ -12,8 +12,11 @@ description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章
 - 博客文章：`content/posts/`
 - OS 首页：`content/categories/os/_index.md`
 - 内存管理知识地图：`content/os/memory/index.md`
+- 首页模板：`layouts/index.html`
+- OS 专栏模板：`layouts/partials/os-hub.html`
 - 文章模板：`layouts/_default/single.html`
 - 全站样式：`static/css/style.css`
+- 文章样式与目录交互：`static/css/article.css`、`static/js/side-toc.js`
 - openEuler 内核源码：`/home/wangyi/openEuler-kernel/`，默认只读分析
 
 每次写源码文章都重新读取内核分支、提交和 Makefile 版本，不沿用旧文章记录的提交号。明确区分本地 openEuler 实现、上游 Linux 文档和一般性概念。
@@ -37,6 +40,6 @@ description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章
 
 ## 外部能力的边界
 
-`html-report-skill` 提供阅读设计参考，不直接作为 Hugo 渲染器。只迁移适合本博客的排版原则，并保持当前暖白与墨绿视觉。
+`html-report-skill` 提供阅读设计参考，不直接作为 Hugo 渲染器。只迁移适合本博客的排版原则，并保持当前浅蓝灰、深色正文与蓝色主色视觉。
 
 Archify 负责真正需要图示的架构、流程、时序、数据流和生命周期图。调用时遵守它自己的 `SKILL.md`、校验和交付流程；图的存在不能替代正文解释和源码证据。

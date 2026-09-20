@@ -1,6 +1,14 @@
+{{ $theme := .Params.cover_theme | default "notes" }}
 <article class="post-card">
-  <div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span></div>
-  <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-  <p>{{ .Description | default (.Summary | plainify | truncate 130) }}</p>
-  <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
+  <a class="post-cover post-cover-{{ $theme }}" href="{{ .RelPermalink }}"{{ with .Params.cover }} style="background-image:url('{{ . | relURL }}')"{{ end }} aria-label="阅读《{{ .Title }}》">
+    <span class="post-cover-grid" aria-hidden="true"></span>
+    <span class="post-cover-label">{{ with .Params.series_title }}{{ . }}{{ else }}TECH NOTE{{ end }}</span>
+    <strong class="post-cover-symbol">{{ .Params.cover_symbol | default "H." }}</strong>
+  </a>
+  <div class="post-card-body">
+    <div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟</span></div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Description | default (.Summary | plainify | truncate 130) }}</p>
+    <div class="post-card-footer"><div class="tags">{{ range first 3 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div><a class="post-read" href="{{ .RelPermalink }}" aria-label="继续阅读《{{ .Title }}》">阅读 →</a></div>
+  </div>
 </article>

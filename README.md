@@ -45,6 +45,15 @@ hugo new content posts/my-new-note.md
 
 编辑生成的 Markdown 文件，填写标题、简介、标签和正文。准备公开时，把 `draft: true` 改成 `draft: false`，提交并推送。
 
+文章列表默认使用 CSS 技术封面。可以在 front matter 中设置封面主题和缩写：
+
+```yaml
+cover_theme: memory-map
+cover_symbol: MM
+```
+
+如果有自己的封面图片，把图片放在 `static/images/covers/`，再设置 `cover: /images/covers/文件名.webp`；列表卡片会自动使用图片。
+
 `hugo server -D` 会展示草稿；正式构建不会发布草稿和未来日期文章。公开仓库里的草稿源文件仍可被他人看到，私人笔记应放在仓库之外。
 
 ## 专栏

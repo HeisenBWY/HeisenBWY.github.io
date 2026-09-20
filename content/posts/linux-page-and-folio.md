@@ -10,6 +10,8 @@ series_title: 内存管理基础
 series_order: 2
 previous_post: /posts/linux-memory-management-overview
 next_post: /posts/linux-virtual-resident-physical-memory
+cover_theme: page-folio
+cover_symbol: PF
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -63,7 +65,9 @@ page 描述符： [ head  ][ tail  ][ tail  ][ tail  ]
 
 过去这两种操作都可能使用 `struct page *`。它既可能指向独立的基本页，也可能指向复合页的头页或尾页。一个函数收到 page 指针后，往往需要确认调用者传入的是哪一种，以及是否需要先取得头页。
 
+{{< callout type="warning" title="连续不等于复合" >}}
 **物理连续也不等于已经组成复合页。** 高阶页分配是否建立复合页元数据，取决于相应分配路径和标志；几页恰好相邻，更不能自动视为同一个复合页。
+{{< /callout >}}
 
 ## 3. folio 把“整体”的含义放进类型
 

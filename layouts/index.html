@@ -1,13 +1,37 @@
 {{ define "main" }}
-<section class="hero">
-  <p class="eyebrow">HEISENBWY'S DIGITAL NOTEBOOK</p>
-  <h1>把探索的过程，<br>写成自己的<span>知识地图。</span></h1>
-  <p class="intro">{{ site.Params.description }}<br>这里收集技术学习、问题排查，以及那些值得留下的思考。</p>
-  <a class="button" href="{{ "posts/" | relURL }}">开始阅读 <span>↗</span></a>
-  <div class="hero-note" aria-hidden="true"><span>随学 · 随记</span><strong>Learn.<br>Build.<br>Document.</strong><small>一点一滴，自成体系。</small></div>
+<aside class="home-notice" aria-label="站点公告"><strong>即刻</strong><p>从 Linux 内存管理开始，把问题、源码与实验整理成可以继续生长的知识地图。</p><a href="{{ "about/" | relURL }}" aria-label="了解本站">→</a></aside>
+
+<section class="home-showcase" aria-label="推荐内容">
+  <div class="home-hero">
+    <div class="home-hero-copy">
+      <p class="eyebrow">HEISENBWY'S DIGITAL NOTEBOOK</p>
+      <h1>近源码，<br>也近问题本身。</h1>
+      <p class="intro">{{ site.Params.description }}<br>从 Linux 内核出发，记录机制、证据与工程思考。</p>
+      <div class="hero-actions"><a class="button" href="{{ "posts/" | relURL }}">开始阅读 <span>→</span></a><a class="button button-ghost" href="{{ "categories/os/" | relURL }}">浏览专栏</a></div>
+    </div>
+    <div class="hero-orbit" aria-hidden="true"><span>MM</span><i>page</i><i>folio</i><i>VMA</i></div>
+  </div>
+  <a class="home-feature" href="{{ "os/memory/" | relURL }}">
+    <span class="home-feature-kicker">CURRENT SERIES / 当前主线</span>
+    <strong>Linux<br>内存管理</strong>
+    <p>从虚拟地址到物理页，从分配到回收。</p>
+    <span class="home-feature-link">查看知识地图 →</span>
+  </a>
 </section>
-<section class="latest">
-  <div class="section-head"><div><p class="eyebrow">THE LATEST</p><h2>最近的记录</h2></div><a href="{{ "posts/" | relURL }}">全部文章 →</a></div>
-  {{ range first 6 (where site.RegularPages "Section" "posts") }}{{ partial "post-card.html" . }}{{ else }}<p>第一篇笔记正在路上。</p>{{ end }}
+
+<section class="home-topics" aria-label="专栏入口">
+  <a class="topic-card topic-card-os" href="{{ "categories/os/" | relURL }}"><span>01 / SYSTEM</span><strong>OS 与 Linux 内核</strong><p>从内存管理开始，建立操作系统知识地图。</p><i>→</i></a>
+  <a class="topic-card topic-card-ai" href="{{ "categories/ai/" | relURL }}"><span>02 / INTELLIGENCE</span><strong>AI 与工程实践</strong><p>记录模型、工具链与实际问题的解决过程。</p><i>→</i></a>
+  <a class="topic-card topic-card-paper" href="{{ "categories/papers/" | relURL }}"><span>03 / RESEARCH</span><strong>论文阅读</strong><p>提炼问题、方法、证据和可以继续验证的方向。</p><i>→</i></a>
 </section>
+
+<nav class="category-strip" aria-label="内容分类"><a class="is-active" href="{{ "" | relURL }}">首页</a><a href="{{ "categories/os/" | relURL }}">OS 内核</a><a href="{{ "os/memory/" | relURL }}">内存管理</a><a href="{{ "categories/ai/" | relURL }}">AI 工程</a><a href="{{ "categories/papers/" | relURL }}">论文阅读</a><a href="{{ "tags/" | relURL }}">全部标签</a></nav>
+
+<div class="home-layout">
+  <section class="latest">
+    <div class="section-head"><div><p class="eyebrow">THE LATEST</p><h2>最近的记录</h2></div><a href="{{ "posts/" | relURL }}">全部文章 →</a></div>
+    <div class="post-grid">{{ range first 6 (where site.RegularPages "Section" "posts") }}{{ partial "post-card.html" . }}{{ else }}<p>第一篇笔记正在路上。</p>{{ end }}</div>
+  </section>
+  {{ partial "site-sidebar.html" . }}
+</div>
 {{ end }}

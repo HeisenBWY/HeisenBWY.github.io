@@ -9,6 +9,8 @@ series: memory-foundations
 series_title: 内存管理基础
 series_order: 1
 next_post: /posts/linux-page-and-folio
+cover_theme: memory-map
+cover_symbol: MM
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -32,7 +34,9 @@ Linux 内存管理同时处理地址、存储和策略。很多困惑，来自�
 | 物理内存与分配 | 数据存放在哪里？如何分配页和小对象？ | Node、Zone、page、Buddy、SLUB |
 | 使用与压力管理 | 谁在占用内存？不足时如何腾出空间？ | 匿名页、Page Cache、回收、Swap、OOM |
 
-例如，一个进程申请了一段地址空间，不代表系统已经为整个区间分配了物理内存；系统还有空闲物理页，也不代表任意一种分配请求都能成功。
+{{< callout type="info" title="先分清统计层面" >}}
+一个进程申请了一段地址空间，不代表系统已经为整个区间分配了物理内存；系统还有空闲物理页，也不代表任意一种分配请求都能成功。
+{{< /callout >}}
 
 下面这张图把地址映射、物理页分配、内核对象分配、文件缓存和压力回收放进同一张地图；后文会沿着这些连接逐层展开。
 
@@ -266,7 +270,9 @@ cat /proc/$target_pid/smaps_rollup
 | 第二次读文件为什么可能更快？ | `mm/filemap.c` | Page Cache、I/O 与访问耗时 |
 | 内存压力为什么带来延迟？ | `mm/vmscan.c` | 回收活动、缺页与应用耗时 |
 
+{{< callout type="tip" title="实验建议" >}}
 涉及制造内存压力、修改内核或验证 OOM 的实验，可以放到 QEMU 虚拟机中，并记录运行内核、配置和内存限制。基础观察可以先在现有系统上进行。
+{{< /callout >}}
 
 这一系列的下一篇，适合从 **“申请了 1 GiB 内存，为什么 RSS 没有立刻增加？”** 开始。它可以把地址空间、缺页、物理页分配这三个层面连接到同一个可观察的过程里。
 

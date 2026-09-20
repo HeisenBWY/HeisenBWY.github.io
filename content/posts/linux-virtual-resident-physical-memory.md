@@ -9,6 +9,8 @@ series: memory-foundations
 series_title: 内存管理基础
 series_order: 3
 previous_post: /posts/linux-page-and-folio
+cover_theme: memory-metrics
+cover_symbol: VM
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
 ---
 
@@ -124,11 +126,11 @@ USS 有助于观察独有的驻留部分，但也不是“杀掉进程后，系�
 
 从整机看，RAM 不仅用于进程的匿名页和映射页，还用于文件缓存、slab 对象、页表、内核栈、网络缓冲区等。
 
-其中，**Page Cache 与进程 RSS 可能重叠**：同一份文件页既是文件缓存，也可能被映射进进程地址空间。所以不能使用下面这样的加法：
+其中，**Page Cache 与进程 RSS 可能重叠**：同一份文件页既是文件缓存，也可能被映射进进程地址空间。
 
-```text
-错误：整机已用内存 = 所有进程 RSS + Cached + Slab
-```
+{{< callout type="danger" title="不要直接相加" >}}
+`整机已用内存 = 所有进程 RSS + Cached + Slab` 这个公式是错误的，因为这些统计并不互斥。
+{{< /callout >}}
 
 这里既可能重复统计，也可能遗漏其他用途。`/proc/meminfo` 的不少字段是从不同维度观察同一批页，例如活跃状态、匿名/文件类型、可回收性；它不是一份所有行互斥的账单。
 

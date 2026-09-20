@@ -7,24 +7,34 @@
   <meta name="description" content="{{ .Description | default site.Params.description }}">
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
-  {{ if and .IsPage (eq .Section "posts") }}<link rel="stylesheet" href="{{ "css/article.css" | relURL }}">{{ end }}
+  {{ if .IsPage }}<link rel="stylesheet" href="{{ "css/article.css" | relURL }}">{{ end }}
   {{ with site.Home.OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">{{ end }}
 </head>
-<body>
+<body{{ if .IsPage }} class="article-page"{{ end }}>
   <a class="skip" href="#main">跳到正文</a>
-  <header class="header wrap">
-    <a class="brand" href="{{ "" | relURL }}"><span class="mark">H.</span> HeisenBWY<span class="brand-note"> / 技术笔记</span></a>
-    <nav aria-label="主导航">
-      <a href="{{ "posts/" | relURL }}">文章</a>
-      <a href="{{ "categories/os/" | relURL }}">OS</a>
-      <a href="{{ "categories/ai/" | relURL }}">AI</a>
-      <a href="{{ "categories/papers/" | relURL }}">论文</a>
-      <a href="{{ "tags/" | relURL }}">标签</a>
-      <a href="{{ "about/" | relURL }}">关于</a>
-      <a href="https://github.com/HeisenBWY">GitHub ↗</a>
-    </nav>
+  <header class="site-header">
+    <div class="header wrap">
+      <a class="brand" href="{{ "" | relURL }}"><span class="mark">H.</span><span>HeisenBWY<small>技术笔记</small></span></a>
+      <nav aria-label="主导航">
+        <a href="{{ "posts/" | relURL }}">文章</a>
+        <a href="{{ "categories/os/" | relURL }}">OS</a>
+        <a href="{{ "categories/ai/" | relURL }}">AI</a>
+        <a href="{{ "categories/papers/" | relURL }}">论文</a>
+        <a href="{{ "tags/" | relURL }}">标签</a>
+        <a href="{{ "about/" | relURL }}">关于</a>
+        <a class="nav-github" href="https://github.com/HeisenBWY">GitHub ↗</a>
+      </nav>
+    </div>
   </header>
   <main id="main" class="wrap">{{ block "main" . }}{{ end }}</main>
-  <footer class="wrap footer"><span>© {{ now.Year }} HeisenBWY · 持续学习，认真记录。</span><a href="{{ "index.xml" | relURL }}">RSS 订阅 ↗</a></footer>
+  <footer class="site-footer">
+    <div class="footer wrap">
+      <div class="footer-brand"><strong>HeisenBWY · 技术笔记</strong><p>记录问题、源码与实验，让零散知识逐渐形成自己的系统。</p></div>
+      <div class="footer-group"><strong>探索</strong><a href="{{ "categories/os/" | relURL }}">OS 专栏</a><a href="{{ "categories/ai/" | relURL }}">AI 专栏</a><a href="{{ "categories/papers/" | relURL }}">论文阅读</a></div>
+      <div class="footer-group"><strong>站点</strong><a href="{{ "posts/" | relURL }}">全部文章</a><a href="{{ "tags/" | relURL }}">文章标签</a><a href="{{ "about/" | relURL }}">关于本站</a></div>
+      <div class="footer-group"><strong>订阅</strong><a href="{{ "index.xml" | relURL }}">RSS 订阅 ↗</a><a href="https://github.com/HeisenBWY">GitHub ↗</a></div>
+    </div>
+    <div class="footer-bottom wrap"><span>© {{ now.Year }} HeisenBWY</span><span>持续学习，认真记录。</span></div>
+  </footer>
 </body>
 </html>

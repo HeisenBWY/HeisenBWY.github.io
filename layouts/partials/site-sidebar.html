@@ -1,0 +1,18 @@
+{{ $posts := where site.RegularPages "Section" "posts" }}
+<aside class="site-sidebar" aria-label="站点信息">
+  <section class="sidebar-card profile-card">
+    <div class="profile-mark">H.</div>
+    <div><p class="sidebar-kicker">ABOUT THIS NOTEBOOK</p><h2>HeisenBWY</h2><p>关注 Linux 内核、系统软件与 AI 工程。这里保存问题的来路，也记录结论的边界。</p></div>
+    <a href="{{ "about/" | relURL }}">关于本站 <span>→</span></a>
+  </section>
+  <section class="sidebar-card stats-card">
+    <div><strong>{{ len $posts }}</strong><span>文章</span></div><div><strong>{{ len site.Taxonomies.categories }}</strong><span>专栏</span></div><div><strong>{{ len site.Taxonomies.tags }}</strong><span>标签</span></div>
+  </section>
+  <section class="sidebar-card explore-card">
+    <p class="sidebar-kicker">EXPLORE / 快速入口</p>
+    <a href="{{ "os/memory/" | relURL }}"><span class="explore-icon">MM</span><span><strong>内存管理</strong><small>知识地图与研究计划</small></span><i>→</i></a>
+    <a href="{{ "categories/os/" | relURL }}"><span class="explore-icon">OS</span><span><strong>OS 专栏</strong><small>从机制走向源码</small></span><i>→</i></a>
+    <a href="{{ "tags/" | relURL }}"><span class="explore-icon">#</span><span><strong>文章标签</strong><small>按概念查找记录</small></span><i>→</i></a>
+  </section>
+  {{ if site.Taxonomies.tags }}<section class="sidebar-card sidebar-tags"><p class="sidebar-kicker">TOPICS / 标签</p><div>{{ range first 8 site.Taxonomies.tags.ByCount }}<a href="{{ .Page.RelPermalink }}"># {{ .Page.Title }} <sup>{{ .Count }}</sup></a>{{ end }}</div></section>{{ end }}
+</aside>

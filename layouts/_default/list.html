@@ -6,7 +6,7 @@
 {{ if eq .Kind "taxonomy" }}
 <div class="tag-cloud">{{ range .Pages }}<a href="{{ .RelPermalink }}"># {{ .Title }} <span>{{ .Pages.Len }}</span></a>{{ end }}</div>
 {{ else }}
-{{ range .Pages.ByDate.Reverse }}{{ partial "post-card.html" . }}{{ else }}<p class="empty-state">这个专栏还没有文章，敬请期待。</p>{{ end }}
+<div class="listing-layout"><div class="post-grid">{{ range .Pages.ByDate.Reverse }}{{ partial "post-card.html" . }}{{ else }}<p class="empty-state">这个专栏还没有文章，敬请期待。</p>{{ end }}</div>{{ partial "site-sidebar.html" . }}</div>
 {{ end }}
 {{ end }}
 {{ end }}

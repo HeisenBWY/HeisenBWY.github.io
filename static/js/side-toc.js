@@ -5,9 +5,14 @@
   const pin = toc.querySelector('.side-toc-pin');
   const panel = toc.querySelector('.side-toc-panel');
   const links = [...toc.querySelectorAll('a[href^="#"]')];
+  const progressBar = document.querySelector('.reading-progress span');
+  const progressLabel = toc.querySelector('.side-toc-progress');
+  const articleMain = document.querySelector('.article-main');
   const storageKey = 'blog-toc-pinned';
   let pinned = false;
   try { pinned = localStorage.getItem(storageKey) === 'true'; } catch {}
+  if (window.matchMedia('(max-width: 1179px)').matches && !pinned) toc.open = false;
+  if (window.matchMedia('(min-width: 1180px)').matches) toc.open = true;
   pin.hidden = false;
   const setPinned = (value) => {
     pinned = value;
@@ -19,6 +24,59 @@
     try { localStorage.setItem(storageKey, String(pinned)); } catch {}
   };
   setPinned(pinned);
+
+  let progressFrame = 0;
+  const updateProgress = () => {
+    progressFrame = 0;
+    if (!articleMain) return;
+    const articleTop = articleMain.getBoundingClientRect().top + window.scrollY;
+    const distance = Math.max(1, articleMain.offsetHeight - window.innerHeight);
+    const value = Math.min(100, Math.max(0, ((window.scrollY - articleTop) / distance) * 100));
+    if (progressBar) progressBar.style.width = `${value}%`;
+    if (progressLabel) progressLabel.textContent = `${Math.round(value)}%`;
+  };
+  const requestProgressUpdate = () => {
+    if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
+  };
+  window.addEventListener('scroll', requestProgressUpdate, { passive: true });
+  window.addEventListener('resize', requestProgressUpdate);
+  updateProgress();
+
+  document.querySelectorAll('.prose .highlight').forEach((block) => {
+    if (block.querySelector('.code-toolbar')) return;
+    const code = block.querySelector('code');
+    const pre = block.querySelector('pre');
+    if (!code || !pre) return;
+    const language = code.dataset.lang || [...code.classList].find((name) => name.startsWith('language-'))?.slice(9) || 'code';
+    const toolbar = document.createElement('div');
+    toolbar.className = 'code-toolbar';
+    const label = document.createElement('span');
+    label.textContent = language;
+    const copy = document.createElement('button');
+    copy.className = 'code-copy';
+    copy.type = 'button';
+    copy.textContent = '复制';
+    copy.setAttribute('aria-label', `复制 ${language} 代码`);
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.innerText);
+        copy.textContent = '已复制';
+      } catch {
+        const field = document.createElement('textarea');
+        field.value = code.innerText;
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.append(field);
+        field.select();
+        document.execCommand('copy');
+        field.remove();
+        copy.textContent = '已复制';
+      }
+      setTimeout(() => { copy.textContent = '复制'; }, 1600);
+    });
+    toolbar.append(label, copy);
+    block.insertBefore(toolbar, pre);
+  });
 
   const sections = links.map((link) => {
     let id = '';

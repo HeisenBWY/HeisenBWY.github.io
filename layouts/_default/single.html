@@ -1,27 +1,33 @@
 {{ define "main" }}
+<div class="reading-progress" aria-hidden="true"><span></span></div>
 <article class="article">
   <header class="page-heading article-heading">
-    {{ with .Params.topic_page }}{{ with site.GetPage . }}<a class="back" href="{{ .RelPermalink }}">← {{ .Title }}知识地图</a>{{ end }}{{ else }}<a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a>{{ end }}
-    {{ with .Params.series_title }}<p class="article-kicker">OS / {{ . }}{{ with $.Params.series_order }} / {{ printf "%02d" . }}{{ end }}</p>{{ end }}
-    <h1>{{ .Title }}</h1>
-    {{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span><span>{{ .WordCount }} 字</span></div>{{ end }}
-    <p class="article-deck">{{ .Description }}</p>
+      {{ with .Params.topic_page }}{{ with site.GetPage . }}<a class="back" href="{{ .RelPermalink }}">← {{ .Title }}知识地图</a>{{ end }}{{ else }}<a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a>{{ end }}
+      {{ with .Params.series_title }}<p class="article-kicker">OS / {{ . }}{{ with $.Params.series_order }} / {{ printf "%02d" . }}{{ end }}</p>{{ end }}
+      <h1>{{ .Title }}</h1>
+      {{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span><span>{{ .WordCount }} 字</span></div>{{ end }}
+      <p class="article-deck">{{ .Description }}</p>
   </header>
-  {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}
-  <details class="side-toc" aria-label="文章目录">
+  <div class="article-layout">
+  <div class="article-main">
+    <div class="prose">{{ .Content }}</div>
+    {{ if or .Params.previous_post .Params.next_post }}
+    <nav class="article-nav" aria-label="系列文章导航">
+      {{ with .Params.previous_post }}{{ with site.GetPage . }}<a class="article-nav-prev" href="{{ .RelPermalink }}"><span>上一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
+      {{ with .Params.next_post }}{{ with site.GetPage . }}<a class="article-nav-next" href="{{ .RelPermalink }}"><span>下一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
+    </nav>
+    {{ end }}
+    {{ with .Params.topic_page }}{{ with site.GetPage . }}<p class="memory-back"><a href="{{ .RelPermalink }}">查看完整的{{ .Title }}知识地图 →</a></p>{{ end }}{{ end }}
+    <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
+  </div>
+  {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}<aside class="article-sidebar">
+  <details class="side-toc" aria-label="文章目录" open>
     <summary aria-label="展开或收起文章目录">目录</summary>
-    <div class="side-toc-panel"><div class="side-toc-heading"><strong>本文目录</strong><button class="side-toc-pin" type="button" aria-label="固定目录" aria-pressed="false" title="固定目录" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7l-1.1 1.1 2.6 2.6 1.1-1.1A1 1 0 1 1 20.7 8.7l-4 4 .6 3.2a1 1 0 0 1-1.7.9l-3.3-3.3-5.6 5.6a1 1 0 0 1-1.4-1.4l5.6-5.6-3.3-3.3a1 1 0 0 1 .9-1.7l3.2.6 4-4A1 1 0 0 1 16 3Z"/></svg></button></div>{{ .TableOfContents }}</div>
+    <div class="side-toc-panel"><div class="side-toc-heading"><strong>本文目录</strong><div class="side-toc-actions"><span class="side-toc-progress">0%</span><button class="side-toc-pin" type="button" aria-label="固定目录" aria-pressed="false" title="固定目录" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7l-1.1 1.1 2.6 2.6 1.1-1.1A1 1 0 1 1 20.7 8.7l-4 4 .6 3.2a1 1 0 0 1-1.7.9l-3.3-3.3-5.6 5.6a1 1 0 0 1-1.4-1.4l5.6-5.6-3.3-3.3a1 1 0 0 1 .9-1.7l3.2.6 4-4A1 1 0 0 1 16 3Z"/></svg></button></div></div>{{ .TableOfContents }}</div>
   </details>
+  <section class="article-side-note"><strong>关于这组笔记</strong><p>围绕一个问题建立心智模型，再回到 openEuler 源码确认实现与边界。</p><a href="{{ "categories/os/" | relURL }}">浏览 OS 专栏 →</a></section>
   <script src="{{ "js/side-toc.js" | relURL }}" defer></script>
-  {{ end }}
-  <div class="prose">{{ .Content }}</div>
-  {{ if or .Params.previous_post .Params.next_post }}
-  <nav class="article-nav" aria-label="系列文章导航">
-    {{ with .Params.previous_post }}{{ with site.GetPage . }}<a class="article-nav-prev" href="{{ .RelPermalink }}"><span>上一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
-    {{ with .Params.next_post }}{{ with site.GetPage . }}<a class="article-nav-next" href="{{ .RelPermalink }}"><span>下一篇</span><strong>{{ .Title }}</strong></a>{{ end }}{{ end }}
-  </nav>
-  {{ end }}
-  {{ with .Params.topic_page }}{{ with site.GetPage . }}<p class="memory-back"><a href="{{ .RelPermalink }}">查看完整的{{ .Title }}知识地图 →</a></p>{{ end }}{{ end }}
-  <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
+  </aside>{{ end }}
+  </div>
 </article>
 {{ end }}

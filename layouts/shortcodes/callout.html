@@ -1,0 +1,6 @@
+{{ $type := .Get "type" | default "info" }}
+{{ $title := .Get "title" | default "提示" }}
+<aside class="callout callout-{{ $type }}">
+  <div class="callout-title"><span class="callout-icon" aria-hidden="true"></span>{{ $title }}</div>
+  <div class="callout-body">{{ .Inner | markdownify }}</div>
+</aside>
