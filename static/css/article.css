@@ -931,3 +931,91 @@
   .article > .article-heading h1 { font-size: 31px; }
   .article-layout { margin-top: 12px; }
 }
+
+/* Display themes inside long-form reading surfaces. */
+html[data-theme="reading"] .article-page {
+  --bg: #eee9df;
+  --ink: #332f2a;
+  --muted: #746b5f;
+  --line: #ded4c3;
+  --green: #766044;
+  --soft: #eee3d2;
+  --article-blue: #766044;
+  --article-blue-deep: #614c32;
+  --article-blue-soft: #eee3d2;
+  background: #eee9df;
+}
+
+html[data-theme="reading"] :is(
+  .article-layout .article-main, .side-toc-panel, .article-side-note,
+  .prose pre, .prose .highlight
+) { border-color: #ded4c3; background-color: #fffaf0 !important; }
+
+html[data-theme="reading"] .code-toolbar { border-color: #ded4c3; background: #f1eadf; }
+html[data-theme="reading"] .prose th { background: #eee3d2; color: #614c32; }
+html[data-theme="reading"] .prose tbody tr:nth-child(even) { background: #faf3e7; }
+html[data-theme="reading"] .source-baseline { border-color: #d7cdbc; background: #f3ede3; }
+
+html[data-theme="dark"] .article-page {
+  --bg: #070b16;
+  --ink: #e8eefc;
+  --muted: #9aa8c2;
+  --line: #273550;
+  --green: #8fa2ff;
+  --soft: #1b2850;
+  --article-blue: #91a4ff;
+  --article-blue-deep: #bdc8ff;
+  --article-blue-soft: #1b2850;
+  --article-green: #67d391;
+  --article-green-soft: #10291e;
+  --article-orange: #f2ad55;
+  --article-orange-soft: #33230f;
+  --article-red: #ff7c86;
+  --article-red-soft: #35151b;
+  background: transparent;
+}
+
+html[data-theme="dark"] :is(
+  .article-layout .article-main, .side-toc-panel, .article-side-note
+) {
+  border-color: #273550;
+  background: rgb(17 24 39 / 96%);
+  box-shadow: 0 14px 42px rgb(0 0 0 / 28%);
+}
+
+html[data-theme="dark"] .prose { color: #dbe4f7; }
+html[data-theme="dark"] .prose strong { color: #bdc8ff; }
+html[data-theme="dark"] .prose code { border-color: #6a3448; background: #301827; color: #ff9aba; }
+html[data-theme="dark"] .prose pre,
+html[data-theme="dark"] .prose .highlight { border-color: #2b3955; background: #0c1322 !important; }
+html[data-theme="dark"] .code-toolbar { border-color: #2b3955; background: #151f33; }
+html[data-theme="dark"] .prose blockquote { background: #172444; color: #b8c5df; }
+html[data-theme="dark"] .prose table { border-color: #34415a; }
+html[data-theme="dark"] .prose th { background: #1b2850; color: #c2cdff; }
+html[data-theme="dark"] .prose th,
+html[data-theme="dark"] .prose td { border-color: #34415a; }
+html[data-theme="dark"] .prose tbody tr:nth-child(even) { background: #111c30; }
+html[data-theme="dark"] .prose tbody tr:hover { background: #172443; }
+html[data-theme="dark"] .source-baseline { border-color: #34415a; border-left-color: #7787a6; background: #111a2a; }
+html[data-theme="dark"] .source-baseline-body,
+html[data-theme="dark"] .source-baseline-body p { color: #aebbd2; }
+html[data-theme="dark"] .article-nav a { border-color: #2b3955; background: #111a2a; }
+html[data-theme="dark"] .article-main > .tags a { border-color: #3b4b70; background: #1b2850; }
+
+/* Immersive reading keeps the current display theme and removes navigation noise. */
+.article-page.is-reading-mode .site-header,
+.article-page.is-reading-mode .site-footer,
+.article-page.is-reading-mode .article-sidebar { display: none; }
+
+.article-page.is-reading-mode main.wrap { max-width: 1000px; padding-top: 20px; }
+.article-page.is-reading-mode .article { max-width: 940px; }
+.article-page.is-reading-mode .article-layout { display: block; margin-top: 16px; }
+.article-page.is-reading-mode .article > .article-heading { min-height: 260px; padding-top: 38px; padding-bottom: 38px; }
+.article-page.is-reading-mode .article-layout .article-main { max-width: 880px; margin: 0 auto; }
+.article-page.is-reading-mode .prose { font-size: 17px; line-height: 1.9; }
+
+@media (max-width: 600px) {
+  .article-page.is-reading-mode main.wrap { padding-top: 10px; }
+  .article-page.is-reading-mode .article > .article-heading { min-height: 240px; }
+  .article-page.is-reading-mode .prose { font-size: 16px; }
+}

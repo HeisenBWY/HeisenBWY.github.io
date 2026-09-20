@@ -6,11 +6,20 @@
   <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ site.Title }}</title>
   <meta name="description" content="{{ .Description | default site.Params.description }}">
   <link rel="canonical" href="{{ .Permalink }}">
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem('blog-display-theme');
+        if (['light', 'reading', 'dark'].includes(theme)) document.documentElement.dataset.theme = theme;
+      } catch {}
+    })();
+  </script>
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
   {{ if .IsPage }}<link rel="stylesheet" href="{{ "css/article.css" | relURL }}">{{ end }}
   {{ with site.Home.OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">{{ end }}
 </head>
 <body{{ if .IsPage }} class="article-page"{{ end }}>
+  <div class="night-sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <a class="skip" href="#main">跳到正文</a>
   <header class="site-header">
     <div class="header wrap">
@@ -36,5 +45,19 @@
     </div>
     <div class="footer-bottom wrap"><span>© {{ now.Year }} HeisenBWY</span><span>持续学习，认真记录。</span></div>
   </footer>
+  <aside class="appearance-dock" aria-label="阅读与显示设置">
+    {{ if and .IsPage (eq .Section "posts") }}<button class="immersive-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◫</span><b>阅读</b></button>{{ end }}
+    <details class="appearance-picker">
+      <summary aria-label="选择显示模式"><span aria-hidden="true">◐</span><b>显示</b></summary>
+      <div class="appearance-panel" role="group" aria-label="显示模式">
+        <strong>显示模式</strong>
+        <button type="button" data-theme-choice="light" aria-pressed="false"><i aria-hidden="true">☀</i><span>日间<small>清爽明亮</small></span></button>
+        <button type="button" data-theme-choice="reading" aria-pressed="false"><i aria-hidden="true">Aa</i><span>护眼<small>温暖纸张色</small></span></button>
+        <button type="button" data-theme-choice="dark" aria-pressed="false"><i aria-hidden="true">☾</i><span>夜间<small>星空与流光</small></span></button>
+      </div>
+    </details>
+    <span class="appearance-status" aria-live="polite"></span>
+  </aside>
+  <script src="{{ "js/site-appearance.js" | relURL }}" defer></script>
 </body>
 </html>

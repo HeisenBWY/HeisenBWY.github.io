@@ -11,8 +11,13 @@
   const storageKey = 'blog-toc-pinned';
   let pinned = false;
   try { pinned = localStorage.getItem(storageKey) === 'true'; } catch {}
-  if (window.matchMedia('(max-width: 1179px)').matches && !pinned) toc.open = false;
-  if (window.matchMedia('(min-width: 1180px)').matches) toc.open = true;
+  const compactToc = window.matchMedia('(max-width: 1179px)').matches;
+  if (compactToc) {
+    pinned = false;
+    toc.open = false;
+  } else {
+    toc.open = true;
+  }
   pin.hidden = false;
   const setPinned = (value) => {
     pinned = value;
