@@ -1,0 +1,26 @@
+{{ define "main" }}
+{{ $posts := where site.RegularPages "Section" "posts" }}
+<section class="page-heading"><p class="eyebrow">ARCHIVE / {{ len $posts }} 条记录</p><h1>{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}</section>
+{{ if $posts }}
+<div class="archive-list">
+  {{ range $posts.GroupByDate "2006" }}
+  <section class="archive-year">
+    <h2>{{ .Key }}<span>{{ .Pages.Len }} 篇</span></h2>
+    <ol>
+      {{ range .Pages.ByDate.Reverse }}
+      <li>
+        <a class="archive-item" href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01.02" }}</time>
+          <span class="archive-item-main"><strong>{{ .Title }}</strong><em>{{ .Description | default (.Summary | plainify | truncate 90) }}</em></span>
+          <span class="archive-item-meta">{{ with .Params.series_title }}{{ . }} · {{ end }}{{ .ReadingTime }} 分钟</span>
+        </a>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
+  {{ end }}
+</div>
+{{ else }}
+<p class="empty-state">还没有文章，归档会在第一篇发布后出现。</p>
+{{ end }}
+{{ end }}

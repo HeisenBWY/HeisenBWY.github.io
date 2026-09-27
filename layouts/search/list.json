@@ -1,0 +1,16 @@
+{{- $posts := where site.RegularPages "Section" "posts" }}
+[
+{{- range $i, $p := $posts }}
+{{- $tags := slice }}{{ range $p.GetTerms "tags" }}{{ $tags = $tags | append .LinkTitle }}{{ end }}
+{{- if $i }},{{ end }}
+  {
+    "title": {{ $p.Title | jsonify }},
+    "url": {{ $p.RelPermalink | jsonify }},
+    "date": {{ $p.Date.Format "2006.01.02" | jsonify }},
+    "summary": {{ $p.Description | default ($p.Summary | plainify) | jsonify }},
+    "series": {{ $p.Params.series_title | jsonify }},
+    "minutes": {{ $p.ReadingTime }},
+    "tags": {{ $tags | jsonify }}
+  }
+{{- end }}
+]
