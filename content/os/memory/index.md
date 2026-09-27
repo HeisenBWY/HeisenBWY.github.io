@@ -56,6 +56,14 @@ modules:
       - title: kswapd 与直接回收分别在什么条件下工作？
       - title: LRU、多代 LRU 与 workingset 如何帮助选择回收对象？
       - title: 反向映射与 Swap 如何参与匿名页回收和再次访问？
+  - id: dedup
+    title: 内存去重
+    scope: KSM、内容寻址合并、写保护与 COW、零页合并、进程级与 cgroup 级统计。
+    questions:
+      - title: KSM 如何发现并合并内容相同的匿名页？
+        article: /posts/linux-ksm-overview
+      - title: KSM 页换出到 swap 后如何保持合并语义？
+      - title: 超大共享下 chain-dup 机制如何控制单页映射数？
   - id: compaction
     title: 碎片、迁移与大页
     scope: 内存碎片、compaction、页迁移、THP、HugeTLB、CMA。
@@ -86,4 +94,4 @@ modules:
       - title: 如何用 PSI、跟踪事件与性能工具定位回收延迟？
 ---
 
-先建立地图，再逐项深入。这份目录按 11 个模块整理要研究的问题，已有文章会直接链接到正文，其余作为后续研究计划。模块划分会随学习继续调整。
+先建立地图，再逐项深入。这份目录按 12 个模块整理要研究的问题，已有文章会直接链接到正文，其余作为后续研究计划。模块划分会随学习继续调整。
