@@ -6,9 +6,9 @@
     <strong class="post-cover-symbol">{{ .Params.cover_symbol | default "H." }}</strong>
   </a>
   <div class="post-card-body">
-    <div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟</span></div>
+    <div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ partial "icon.html" "calendar" }}{{ .Date.Format "2006.01.02" }}</time><span>{{ partial "icon.html" "clock" }}{{ .ReadingTime }} 分钟</span></div>
     <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
     <p>{{ .Description | default (.Summary | plainify | truncate 130) }}</p>
-    <div class="post-card-footer"><div class="tags">{{ range first 3 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div><a class="post-read" href="{{ .RelPermalink }}" aria-label="继续阅读《{{ .Title }}》">阅读 →</a></div>
+    <div class="post-card-footer"><div class="tags">{{ range first 3 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}">{{ partial "tag-icon.html" .LinkTitle }}<span>{{ .LinkTitle }}</span></a>{{ end }}</div><a class="post-read" href="{{ .RelPermalink }}" aria-label="继续阅读《{{ .Title }}》">阅读 →</a></div>
   </div>
 </article>

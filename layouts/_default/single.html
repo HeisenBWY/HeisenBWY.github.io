@@ -5,7 +5,7 @@
       {{ with .Params.topic_page }}{{ with site.GetPage . }}<a class="back" href="{{ .RelPermalink }}">← {{ .Title }}知识地图</a>{{ end }}{{ else }}<a class="back" href="{{ "posts/" | relURL }}">← 文章列表</a>{{ end }}
       {{ with .Params.series_title }}<p class="article-kicker">OS / {{ . }}{{ with $.Params.series_order }} / {{ printf "%02d" . }}{{ end }}</p>{{ end }}
       <h1>{{ .Title }}</h1>
-      {{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }} 分钟阅读</span><span>{{ .WordCount }} 字</span></div>{{ end }}
+      {{ if eq .Section "posts" }}<div class="post-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ partial "icon.html" "calendar" }}{{ .Date.Format "2006.01.02" }}</time><span>{{ partial "icon.html" "clock" }}{{ .ReadingTime }} 分钟阅读</span><span>{{ .WordCount }} 字</span></div>{{ end }}
       <p class="article-deck">{{ .Description }}</p>
   </header>
   <div class="article-layout">
@@ -18,7 +18,7 @@
     </nav>
     {{ end }}
     {{ with .Params.topic_page }}{{ with site.GetPage . }}<p class="memory-back"><a href="{{ .RelPermalink }}">查看完整的{{ .Title }}知识地图 →</a></p>{{ end }}{{ end }}
-    <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} 专栏</a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>
+    <div class="tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ partial "tag-icon.html" .LinkTitle }}<span>{{ .LinkTitle }} 专栏</span></a>{{ end }}{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}">{{ partial "tag-icon.html" .LinkTitle }}<span>{{ .LinkTitle }}</span></a>{{ end }}</div>
   </div>
   {{ if and (eq .Section "posts") (gt (len .Fragments.Headings) 0) }}<aside class="article-sidebar">
   <details class="side-toc" aria-label="文章目录" open>

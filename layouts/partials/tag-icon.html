@@ -1,0 +1,13 @@
+{{- $name := lower . -}}
+{{- $icon := "tag" -}}
+{{- if or (in $name "源码") (in $name "代码") }}{{ $icon = "code" }}
+{{- else if in $name "内存" }}{{ $icon = "chip" }}
+{{- else if or (in $name "linux") (in $name "os") (in $name "系统") }}{{ $icon = "terminal" }}
+{{- else if or (in $name "页表") (in $name "虚拟") }}{{ $icon = "layers" }}
+{{- else if in $name "写作" }}{{ $icon = "pen" }}
+{{- else if or (in $name "学习") (in $name "方法") }}{{ $icon = "book" }}
+{{- else if or (in $name "ai") (in $name "智能") (in $name "模型") }}{{ $icon = "spark" }}
+{{- else if or (in $name "论文") (in $name "paper") }}{{ $icon = "paper" }}
+{{- else if in $name "内核" }}{{ $icon = "terminal" }}
+{{- end -}}
+{{- partial "icon.html" $icon -}}

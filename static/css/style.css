@@ -621,6 +621,32 @@ h3 {
   font-size: 11px;
 }
 
+/* Inline semantic icons (meta rows and tag chips) */
+.post-meta time,
+.post-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.post-meta svg {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+}
+
+.tags a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tags svg {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+}
+
 .post-read {
   flex: 0 0 auto;
   color: var(--blue);
