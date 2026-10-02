@@ -1,0 +1,59 @@
+/* 行内代码样式（仿 subingwen.cn）：无底色、红色加粗 */
+#article-container code {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  margin: 0 4px;
+  background: none;
+  color: #ff7c7c;
+  font-weight: 700;
+  line-height: 2;
+  box-shadow: var(--anzhiyu-shadow-border);
+  font-family: consolas, Menlo, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
+}
+
+/* 代码块内的 code 恢复代码块自身的样式，不受行内样式影响 */
+#article-container pre code {
+  padding: 0;
+  margin: 0;
+  background: none;
+  color: var(--hl-color);
+  text-shadow: none;
+  box-shadow: none;
+  font-weight: 400;
+}
+
+[data-theme="dark"] #article-container pre > code {
+  background: #171717;
+}
+
+/* 文章内交互架构图（archify 导出）容器样式 */
+.kernel-diagram {
+  margin: 1.5em 0;
+}
+.kernel-diagram-frame {
+  position: relative;
+  width: 100%;
+  padding-top: 62%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--anzhiyu-card-border, #e3e8f7);
+  background: #fff;
+  box-shadow: var(--anzhiyu-shadow-border, 0 4px 12px rgba(0, 0, 0, 0.05));
+}
+.kernel-diagram-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.kernel-diagram figcaption {
+  font-size: 0.85em;
+  color: var(--anzhiyu-secondtext, #999);
+  text-align: center;
+  margin-top: 0.5em;
+}
+[data-theme="dark"] .kernel-diagram-frame {
+  background: #1c1e26;
+}
