@@ -4,6 +4,7 @@ date: 2026-09-19T12:00:00+08:00
 description: "从 VmSize、RSS、PSS 到 MemFree 与 MemAvailable，通过地址空间和共享页算例，理解不同内存统计的范围、重叠与边界。"
 categories: ["OS"]
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
+cover: /img/covers/linux-virtual-resident-physical-memory.jpg
 ---
 
 一个程序的虚拟内存有几 GiB，RSS 只有几百 MiB；把所有进程的 RSS 加起来，又对不上系统的已用内存。到底哪个数才表示“用了多少内存”？

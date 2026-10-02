@@ -4,6 +4,7 @@ date: 2026-09-19T12:00:00+08:00
 description: "从一次内存申请出发，串起虚拟地址、页表、物理页、Buddy、SLUB、Page Cache 与内存回收，建立阅读 Linux 内存管理源码的第一张地图。"
 categories: ["OS"]
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
+cover: /img/covers/linux-memory-management-overview.jpg
 ---
 
 打开 Linux 的 `mm/` 目录，会看到 `mmap.c`、`memory.c`、`page_alloc.c`、`slub.c`、`vmscan.c` 等一大批文件。每个名字似乎都与内存有关，但它们各自负责什么，又如何一起工作？

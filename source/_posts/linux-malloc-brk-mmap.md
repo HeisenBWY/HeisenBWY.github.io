@@ -4,6 +4,7 @@ date: 2026-10-02T12:00:00+08:00
 description: "malloc 是 libc 的用户态分配器，brk 与 mmap 是它向内核要地址空间的两条系统调用路径。从 ptmalloc 的阈值、动态调整与两条归还路径出发，理解堆的增长与收缩边界。"
 categories: ["OS"]
 tags: ["Linux", "内存管理", "glibc", "内核源码", "openEuler"]
+cover: /img/covers/linux-malloc-brk-mmap.jpg
 ---
 
 用 `strace` 跟踪一个不断 `malloc` 的程序：分配几十字节时，常常看不到任何系统调用；分配稍大一点，出现一次 `brk`；分配到几十 MiB，出现的却是 `mmap`。三个名字是什么关系？

@@ -4,6 +4,7 @@ date: 2026-09-28T01:30:00+08:00
 description: "从两棵内容寻址红黑树、ksmd 扫描游标与写保护换页三件事入手，拆解 KSM 的合并漏斗、私有反向映射与统计口径，并梳理 per-VMA 锁的优化方向。"
 categories: ["OS"]
 tags: ["Linux", "内存管理", "内核源码", "openEuler", "KSM"]
+cover: /img/covers/linux-ksm-overview.jpg
 ---
 
 同一台机器上跑着几十个相似的虚拟机或容器，它们的匿名内存里有大量内容完全相同的页。fork 的写时复制帮不上忙——这些进程之间没有亲缘关系。KSM（Kernel Samepage Merging）就是为这种场景准备的：**不问出身，只看内容**，把内容相同的匿名页合并成一个共享的物理页。

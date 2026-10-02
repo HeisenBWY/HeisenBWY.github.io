@@ -4,6 +4,7 @@ date: 2026-09-19T12:00:00+08:00
 description: "从基本页、复合页的头页与尾页出发，理解 folio 的接口语义、与 struct page 的内存布局关系，以及两种抽象为什么需要共存。"
 categories: ["OS"]
 tags: ["Linux", "内存管理", "内核源码", "openEuler"]
+cover: /img/covers/linux-page-and-folio.jpg
 ---
 
 阅读 Linux 内存管理源码时，常会遇到两类指针：`struct page *` 和 `struct folio *`。有些函数接收 page，有些接收 folio，还有一些函数在两者之间转换。
