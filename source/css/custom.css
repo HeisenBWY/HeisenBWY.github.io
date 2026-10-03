@@ -26,6 +26,13 @@
   background: #171717;
 }
 
+/* 新版 highlight.js 的 type / function token 着色（对齐旧版解析的蓝色函数签名观感） */
+#article-container figure.highlight pre .type,
+#article-container figure.highlight pre .title.function_,
+#article-container figure.highlight pre .function {
+  color: #6182b8;
+}
+
 /* 文章内交互架构图（archify 导出）容器样式 */
 .kernel-diagram {
   margin: 1.5em 0;
