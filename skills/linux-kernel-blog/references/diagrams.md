@@ -20,15 +20,18 @@
 
 ## 仓库位置
 
-- 可维护的 Archify JSON：`diagram-sources/<article-slug>/`
-- 独立交互 HTML：`static/diagrams/<article-slug>/`
-- 文章直接展示的 SVG/WebP：`static/images/diagrams/<article-slug>/`
+- 独立交互 HTML：`source/diagrams/<article-slug>/`（由 `_config.yml` 的 `skip_render: diagrams/**` 原样输出，不经过主题渲染）。
+- 文章封面等静态图片：`source/img/covers/`。
 
-默认在文章中嵌入经过检查的静态 SVG，并提供准确的替代文字和一句图注。只有搜索、聚焦、主题切换或关系追踪确实帮助读者时，才额外提供交互 HTML 链接；不要默认用 iframe 增加阅读负担。
+archify 导出的单个 HTML 约 700KB（其中 SVG 仅约 12KB，其余为框架脚本），目前接受该体积；如需精简另行讨论，不在每篇文章上重复优化。
+
+## 嵌入与链接
+
+文章内通过 iframe 嵌入（带 `?embed=1&theme=light` 参数，隐藏 archify 自带头部工具栏），并提供"打开完整交互图 ↗"链接到独立页面。完整页面因为 `skip_render` 不包含博客导航，是纯图应用。容器样式由 `source/css/custom.css` 的 `.kernel-diagram*` 规则提供。
 
 ## 与正文的关系
 
 - 图前说明读者应观察什么，图后解释结论。
 - 图中的名称与源码结构、函数和文章术语一致。
 - 图不能把可能路径画成必经路径，不能省略会改变结论的重要条件。
-- 图表是派生产物；文章 Markdown 与 Archify JSON 分别是文字和图的可维护来源。
+- 图表是派生产物；文章 Markdown 是文字的可维护来源。

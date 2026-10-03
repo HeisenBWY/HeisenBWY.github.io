@@ -1,116 +1,55 @@
-# Hugo 阅读与视觉规范
+# Hexo + AnZhiYu 阅读与视觉规范
 
-## 视觉方向
+## 站点形态
 
-博客整体采用浅蓝灰背景、深色正文与蓝色主色，配合克制的圆角和阴影。首页、列表、专题地图和文章页使用同一套卡片、间距与色彩变量。阅读体验可以借鉴 `/home/wangyi/html-report-skill/report.css` 与 `toc.js`，但不要整份复制，也不要把站点改成 GitHub 报告页。
+博客由 Hexo 静态生成，使用 [anzhiyu-c/hexo-theme-anzhiyu](https://github.com/anzhiyu-c/hexo-theme-anzhiyu) 主题（npm 依赖 `hexo-theme-anzhiyu`）。视觉基准对齐 subingwen.cn：大图首屏、文章卡片流、左封面右摘要。
 
-优先吸收这些设计：
+配置分为三层，改动前先确定属于哪层：
 
-- 用字号、间距和细边线建立 H1/H2/H3 层级。
-- 行内代码有轻背景与细边框；代码块有清晰边界、横向滚动和合适行高。
-- 表格采用清晰表头、轻斑马纹、行悬停和移动端横向滚动。
-- 普通说明、警告和源码基线元信息使用不同但克制的引用块样式。
-- 长文目录高亮当前章节，并让当前项自动进入目录可视区。
+| 层 | 文件 | 负责什么 |
+| --- | --- | --- |
+| 站点级 | `_config.yml` | permalink、`skip_render`（diagrams/ 原样输出）、highlight.js 输出格式 |
+| 主题级 | `_config.anzhiyu.yml` | 导航菜单、封面开关、代码块工具栏、社交图标、页脚 |
+| 定制层 | `source/css/custom.css` | 行内代码红字、代码块 token 着色、架构图 iframe 容器 |
 
-## 信息架构
+**禁止**直接修改 `node_modules/hexo-theme-anzhiyu/` 内的文件（`npm ci` 会覆盖）；需要主题级定制时优先用配置项，其次在 custom.css 里加覆盖规则。
 
-本站是内容型技术博客，不按产品落地页组织。页面首屏优先让读者看到可阅读内容、专栏入口和当前位置，避免用超大宣传 Hero 把文章入口推到首屏之外。
+## 代码块（已对齐 subingwen.cn，勿回退）
 
-首页默认按以下层次组织：
+- `_config.yml` 的 highlight 设置：`line_number: true`、`hljs: false`。**`hljs: false` 是关键**——开启会让 token class 带 `hljs-` 前缀，主题 CSS 无法命中，代码块变成单色。
+- `_config.anzhiyu.yml` 代码块工具栏：`highlight_copy: true`（复制按钮）、`highlight_lang: true`（语言标签）、`highlight_shrink: false`（默认展开带折叠按钮）。
+- custom.css 补充规则：新版 highlight.js 的 `.type`、`.title.function_` 着色为 `#6182b8`，对齐旧版解析器的蓝色函数签名。
+- 代码语言标注：bash 命令用 ` ```bash `，C 代码用 ` ```c `，纯示意/文本图用 ` ```text `。
 
-1. 紧凑的站点导航与单行公告。
-2. 主推荐位与当前研究主线组成的双推荐区。
-3. OS、AI、论文等专栏的快捷入口。
-4. 可横向滚动的内容分类栏。
-5. 双列文章流与站点信息侧栏。
+## 行内代码（custom.css 维护）
 
-首页推荐区可以使用站内生成的几何图形、网格和技术符号建立识别，不依赖外部装饰图片。首屏在常见桌面宽度下应至少露出文章区标题或第一行文章卡片，让读者明确这是博客而不是产品官网。
-
-专栏页默认采用“主目录 + 上下文侧栏”：
-
-- 主列按章节或研究专题排列，每章说明核心问题、知识范围、知识地图入口和已有文章。
-- 已有文章直接列出，尚未展开的章节明确标为待更新，不用空卡片伪装完整度。
-- 侧栏放置推荐起点、站点统计和快速入口；窄屏时移到主目录之后。
-- OS 专栏保持问题驱动和学习顺序，不退化为普通按日期排序的文章列表。
-
-文章页默认采用“文章封面 + 阅读区”：顶部封面承载标题、系列、日期、阅读时间、字数和摘要；封面之后为正文主列与目录侧栏。封面用于建立层级，不放与文章事实无关的营销文案。
-
-首页、专栏页和文章页可以借鉴优秀技术博客的信息密度与内容分布，但只迁移结构原则。不要复制对方的图片、头像、品牌文字、公告文案、装饰资产或整套 CSS。
+行内代码样式为无底色、红色加粗（#ff7c7c）、细边框阴影、consolas 字体，仿 subingwen.cn。规则限定在 `#article-container code`，并用 `#article-container pre code` 恢复代码块内部样式，避免互相污染。暗色模式下代码块背景为 #171717。
 
 ## 文章封面
 
-首页与列表页的文章卡片必须保留封面区域。默认使用 `cover_theme` 和 `cover_symbol` 生成轻量技术封面，不依赖外部图片；有准确、清晰并与文章主题相关的图片时，可以使用 `cover` 指向站内资源。
+- 每篇文章 front-matter 指定 `cover: /img/covers/<article-slug>.jpg`，图片放 `source/img/covers/`。
+- 封面图用文生图 API（`https://console.enterprise.trae.cn/api/ide/v1/text_to_image?prompt=...&image_size=landscape_16_9`）按文章主题生成抽象技术插画；prompt 遵循 SDXL 风格：具体、克制配色、wide banner、no text。
+- 未指定 `cover` 的文章回落到 `_config.anzhiyu.yml` 的 `default_cover`（/img/cover.jpg）。
 
-```yaml
-cover_theme: memory-map
-cover_symbol: MM
-# cover: /images/covers/example.webp
+## 文章内架构图
+
+archify 导出的交互 HTML 放 `source/diagrams/<article-slug>/`，`_config.yml` 的 `skip_render: diagrams/**` 保证它们原样输出、不套主题模板（否则会"博客嵌博客"）。
+
+文章内嵌入方式：
+
+```html
+<figure class="kernel-diagram">
+  <div class="kernel-diagram-frame">
+    <iframe src="/diagrams/<slug>/<file>.html?embed=1&amp;theme=light" title="图标题" loading="lazy"></iframe>
+  </div>
+  <figcaption>图注。 <a href="/diagrams/<slug>/<file>.html" target="_blank" rel="noopener">打开完整交互图 ↗</a></figcaption>
+</figure>
 ```
 
-封面负责帮助读者区分文章和建立栏目识别，不承担正文证据。不要使用与内容无关的装饰照片，也不要从其他网站直接复制图片。
+容器样式（宽高比、圆角、暗色适配）由 custom.css 的 `.kernel-diagram*` 规则维护。iframe 必须带 `?embed=1` 让 archify 隐藏自身工具栏。
 
-## 作用域与维护
+## 本地验证
 
-- 正文规则限定在 `.prose`，避免污染导航、专题卡片和页脚。
-- 交互组件使用独立类名；不要依赖文章标题或某篇文章的 DOM 偶然结构。
-- 样式按基础、布局、正文、组件和响应式分区，避免继续把所有规则压在单行。
-- 保留键盘焦点、语义标签、`aria-*` 状态和 `prefers-reduced-motion`。
-- 不引入外部字体、前端框架或 CDN 依赖，除非用户明确选择。
-
-## 文章目录
-
-宽屏时目录位于正文右侧独立栏并保持可见，与正文顶部对齐；目录栏可附带简短的专栏说明或相关入口。目录面板应有最大高度和独立滚动，不能随正文无限增长。
-
-窄屏不保留双栏，改为右下角可点击抽屉。抽屉不默认遮住正文；点击章节后定位标题并收起，Escape 和点击外部都能关闭。
-
-加入当前章节高亮时，优先使用 `IntersectionObserver`，并为不支持或脚本失败的情况保留普通锚点导航。不要让滚动监听在每次事件中扫描全部标题。
-
-目录交互必须支持鼠标、触摸和键盘。滚动进度属于增强功能，脚本失败时不能影响普通锚点导航和正文阅读。
-
-## 显示模式与沉浸阅读
-
-全站提供日间、护眼和夜间三种显示模式，并在浏览器本地保存选择。页面应在 `<head>` 中尽早恢复已保存主题，减少夜间模式加载时的白屏闪烁；脚本或存储不可用时回退到可读的日间模式。
-
-- 日间模式延续浅蓝灰背景、白色阅读面与蓝色主色。
-- 护眼模式使用温暖纸张色，但仍维持足够的文字、边框和代码对比度，不能简单叠加黄色滤镜。
-- 夜间模式使用深蓝黑背景和分层深色表面，正文、代码、表格、提示框分别校准颜色，不能只做全页反色。
-- 夜间背景可以加入低密度星点、微弱星云和偶发流星，装饰必须位于内容层之后，不覆盖文字或接收指针事件。
-- 动画应节制，并在 `prefers-reduced-motion: reduce` 下停止；不为星空引入外部图片或动画框架。
-
-文章页提供独立的沉浸阅读开关。启用后隐藏站点导航、页脚和目录侧栏，保留文章封面、正文、上下篇导航与语义内容，并把正文居中到舒适行宽。再次点击或按 Escape 可以退出；显示主题与沉浸阅读相互独立。
-
-显示面板和阅读开关使用原生按钮或 `details`，维护 `aria-pressed`、可见焦点和状态提示。移动端控件不得与右下角文章目录按钮重叠。
-
-## 语义内容块
-
-现有文章开头的第一个引用块通常是源码基线，应呈现为中性的元信息卡。普通引用保持蓝色信息风格。只有明确写作约定的警告块才使用警示色，不能仅凭粗体文本误判所有引用块。
-
-若需要稳定区分语义，优先增加 Hugo shortcode 或 Markdown attribute 约定，而不是依赖脆弱的 `:first-of-type` 选择器。
-
-文章页使用蓝色作为主色，并用颜色表达稳定语义：
-
-- 蓝色用于标题、链接、当前目录项、关键概念和普通信息。
-- 绿色用于可直接执行的建议、实践步骤和推荐做法。
-- 橙色用于前提条件、版本差异、配置依赖及需要谨慎理解的边界。
-- 红色用于错误公式、高风险操作和会直接导致错误结论的做法。
-- 偏红色只用于行内代码等技术记号，不与危险提示混用。
-
-需要语义提示框时使用 `callout` shortcode：
-
-```markdown
-{{</* callout type="warning" title="连续不等于复合" */>}}
-提示内容。
-{{</* /callout */>}}
-```
-
-`type` 使用 `info`、`tip`、`warning` 或 `danger`。不要只为了增加颜色而添加提示框；一个段落只有在需要读者停下来区分概念、条件或风险时才提升为 callout。
-
-## 验证
-
-- 构建正式站点和草稿站点，确认文章与非文章页面都不受破坏。
-- 检查 360px、768px、1280px 和宽屏布局；首页、专栏页、文章页三类页面都要覆盖。
-- 能使用真实浏览器时，用 Chrome/Chromium 实际截图检查首屏信息密度、中文字体、卡片裁切、目录位置和横向溢出，再报告视觉检查通过。
-- 无桌面环境优先使用 `google-chrome-stable --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars`。DBus、UPower 或 GCM 日志本身不代表失败，以退出状态、截图文件存在且非空、页面内容实际渲染为准。
-- 测试鼠标、触摸、Tab、Enter/Space 和 Escape。
-- 不把静态 HTML/CSS 检查描述成肉眼视觉验证。
-- 运行 `git diff --check`，不提交 Hugo 生成的 `public/`。
+- 预览：`npx hexo server -p 4000`，配置或渲染异常时先 `npx hexo clean`。
+- 用真实浏览器检查：首页卡片封面、文章代码块（行号、高亮、复制按钮）、note 提示框、暗色模式、架构图 iframe。
+- 线上部署由 `.github/workflows/hexo.yml` 自动完成，不在本地提交 `public/`。
