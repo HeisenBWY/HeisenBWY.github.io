@@ -19,7 +19,7 @@ description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章
 - 文章封面：`source/img/covers/`
 - 文章骨架模板：`scaffolds/post.md`
 - 部署：`.github/workflows/hexo.yml`（Node 22 + npm ci + hexo generate + GitHub Pages）
-- openEuler 内核源码：`/home/wangyi/openEuler-kernel/`，默认只读分析
+- openEuler 内核源码：`/home/wangyi/openEuler_kernel/`，默认只读分析
 
 每次写源码文章都重新读取内核分支、提交和 Makefile 版本，不沿用旧文章记录的提交号。明确区分本地 openEuler 实现、上游 Linux 文档和一般性概念。
 

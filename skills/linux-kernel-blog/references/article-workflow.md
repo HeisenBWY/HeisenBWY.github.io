@@ -43,7 +43,7 @@ cover: /img/covers/<article-slug>.jpg
 ## 证据表达
 
 - 文章开头用 `{% note info no-icon %}` 提示块记录源码基线、研究范围和是否包含实测；示例见 `source/_posts/` 既有文章的"研究基线"块。
-- 源码路径相对于 `/home/wangyi/openEuler-kernel/` 表达。
+- 源码路径相对于 `/home/wangyi/openEuler_kernel/` 表达。
 - 函数名和结构名使用行内代码；只摘录能直接支持解释的短代码。
 - "典型路径"不能写成所有配置都固定执行的调用链。
 - 运行系统与源码树可能不一致。给观察命令时提醒读者先记录 `uname -r`、体系结构、页大小和相关配置。
