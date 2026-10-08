@@ -1,11 +1,11 @@
 ---
 name: linux-kernel-blog
-description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章，包括基于 openEuler 源码的研究、OS/内存管理知识地图更新、AnZhiYu 主题阅读样式优化，以及在机制关系复杂时制作 Archify 图表。适用于 OS 专栏文章和专题导航；不用于独立内核调研报告归档。
+description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章，包括基于上游 Linux 与 openEuler 源码的研究、OS/内存管理知识地图更新、AnZhiYu 主题阅读样式优化，以及在机制关系复杂时制作 Archify 图表。适用于 OS 专栏文章和专题导航；不用于独立内核调研报告归档。
 ---
 
 # Linux Kernel Blog
 
-为 `/home/wangyi/HeisenBWY.github.io` 维护结构统一、证据清楚、适合持续学习的 Linux 内核博客。Markdown 是文章事实来源，Hexo + AnZhiYu 主题是站点渲染器。
+为当前博客仓库维护结构统一、证据清楚、适合持续学习的 Linux 内核博客。Markdown 是文章事实来源，Hexo + AnZhiYu 主题是站点渲染器。
 
 ## 本地上下文
 
@@ -19,9 +19,10 @@ description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章
 - 文章封面：`source/img/covers/`
 - 文章骨架模板：`scaffolds/post.md`
 - 部署：`.github/workflows/hexo.yml`（Node 22 + npm ci + hexo generate + GitHub Pages）
-- openEuler 内核源码：`/home/wangyi/openEuler_kernel/`，默认只读分析
+- 上游 Linux 源码：`/home/wangyi/linux/`，默认只读分析
+- openEuler 内核源码：`/home/wangyi/openEuler-kernel/`，默认只读分析
 
-每次写源码文章都重新读取内核分支、提交和 Makefile 版本，不沿用旧文章记录的提交号。明确区分本地 openEuler 实现、上游 Linux 文档和一般性概念。
+每次写源码文章都重新读取两个内核仓库的分支、提交和 Makefile 版本，不沿用旧文章记录的提交号。研究 Linux 6.6 时以正式标签 `v6.6` 为上游基础实现，不把 `/home/wangyi/linux/` 的当前检出版本误当成 6.6。明确区分上游基础实现、6.6.y 稳定修复、openEuler 增量、后续主线演进和一般性概念。若换用其他电脑，先确认两个源码仓库的实际路径，再记录基线。
 
 ## 按任务读取说明
 
@@ -32,6 +33,7 @@ description: 为本仓库撰写、维护和呈现 Linux 内核技术博客文章
 ## 共同约束
 
 - 围绕一个明确问题组织文章，先给读者心智模型，再进入源码细节。
+- OS 源码文章默认按“上游 `v6.6` 基础机制 → 6.6.y 稳定修复 → openEuler 增量 → 6.6 之后的上游演进”研究；只写与主题结论有关的变化，不罗列无关提交。
 - 事实、推断和待验证内容分开表达。没有运行实验时明确说明，不虚构输出、性能结果或调用路径。
 - 源码引用给出仓库相对路径、关键符号和基线，不大段复制代码。
 - 新文章默认放入 `source/_drafts/`；用户明确要求发布时才移入 `source/_posts/`。

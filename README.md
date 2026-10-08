@@ -52,6 +52,8 @@ cover: /img/cover.jpg   # 不填则使用默认封面
 {% endnote %}
 ```
 
+OS 与 Linux 内核文章的完整研究、证据和版本比较规范见 `skills/linux-kernel-blog/SKILL.md` 与 `skills/linux-kernel-blog/references/article-workflow.md`。源码文章默认从上游 `v6.6` 基础机制出发，分别检查 6.6.y 稳定修复、openEuler OLK-6.6 增量和 6.6 之后的上游演进；只展开会影响主题结论的重要变化。
+
 ## 发布到 GitHub
 
 1. 源码提交到 `main` 分支（包含 `.github/workflows/hexo.yml`），不要上传 `public/` 和 `node_modules/`（已在 `.gitignore` 中）。
