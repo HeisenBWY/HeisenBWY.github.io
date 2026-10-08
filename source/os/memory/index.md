@@ -21,7 +21,7 @@ mm_struct、VMA、堆与栈、brk、mmap、映射生命周期。
 
 - [mm_struct 和 VMA 如何描述一个进程的地址空间？](/posts/linux-mm-struct-and-vma/)
 - [malloc、brk 与 mmap 是什么关系？](/posts/linux-malloc-brk-mmap/)
-- 从建立映射到 munmap，地址空间经历了哪些变化？
+- [从建立映射到 munmap，地址空间经历了哪些变化？](/posts/linux-mmap-munmap-lifecycle/)
 
 ## 页表与缺页处理
 

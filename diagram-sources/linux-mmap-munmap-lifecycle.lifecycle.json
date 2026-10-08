@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "从 mmap 到 munmap：地址空间的生命周期",
+    "locale": "zh-CN",
+    "output": "source/diagrams/linux-mmap-munmap-lifecycle/address-space-lifecycle.html",
+    "viewBox": [980, 566],
+    "animation": "none",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "main", "label": "地址空间主线" },
+    { "id": "paging", "label": "按需分页" },
+    { "id": "teardown", "label": "解除映射" }
+  ],
+  "states": [
+    { "id": "gap", "type": "start", "label": "地址空间空洞", "sublabel": "Maple Tree 中无覆盖 VMA", "lane": "main", "col": 0, "step": "01", "tag": "unmapped" },
+    { "id": "vma", "type": "active", "label": "VMA 已登记", "sublabel": "规则存在，普通匿名页尚未驻留", "lane": "main", "col": 1, "step": "02", "tag": "mmap" },
+    { "id": "resident", "type": "active", "label": "按需建立页级状态", "sublabel": "PTE、rmap、RSS 随访问变化", "lane": "main", "col": 2, "step": "03", "tag": "fault" },
+    { "id": "detached", "type": "active", "label": "拆分并摘除目标区间", "sublabel": "清 PTE、反向映射和驻留记账", "lane": "main", "col": 3, "step": "04", "tag": "munmap" },
+    { "id": "unmapped", "type": "success", "label": "目标区间恢复为空洞", "sublabel": "TLB 失效后不再匹配原映射", "lane": "main", "col": 4, "step": "05", "tag": "done" },
+    { "id": "fault_modes", "type": "decision", "label": "首次访问的三种去向", "sublabel": "零页 / 私页 / 文件页", "lane": "paging", "col": 0, "tag": "fault type" },
+    { "id": "partial", "type": "neutral", "label": "部分 munmap", "sublabel": "左右幸存区间继续作为 VMA", "lane": "teardown", "col": 1, "tag": "split" },
+    { "id": "shared_refs", "type": "external", "label": "页可能继续存活", "sublabel": "仍有其他映射、页缓存或引用", "lane": "teardown", "col": 2, "tag": "shared" }
+  ],
+  "transitions": [
+    { "id": "fault_detail", "from": "resident", "to": "fault_modes", "variant": "default", "fromSide": "bottom", "toSide": "top", "route": "straight" },
+    { "id": "partial_detail", "from": "detached", "to": "partial", "variant": "default", "fromSide": "bottom", "toSide": "top", "route": "straight" },
+    { "id": "reference_detail", "from": "unmapped", "to": "shared_refs", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "straight" }
+  ]
+}

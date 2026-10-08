@@ -14,16 +14,17 @@
 
 **禁止**直接修改 `node_modules/hexo-theme-anzhiyu/` 内的文件（`npm ci` 会覆盖）；需要主题级定制时优先用配置项，其次在 custom.css 里加覆盖规则。
 
-## 代码块（已对齐 subingwen.cn，勿回退）
+## 代码块（参考 subingwen.cn，勿回退）
 
 - `_config.yml` 的 highlight 设置：`line_number: true`、`hljs: false`。**`hljs: false` 是关键**——开启会让 token class 带 `hljs-` 前缀，主题 CSS 无法命中，代码块变成单色。
-- `_config.anzhiyu.yml` 代码块工具栏：`highlight_copy: true`（复制按钮）、`highlight_lang: true`（语言标签）、`highlight_shrink: false`（默认展开带折叠按钮）。
+- `_config.anzhiyu.yml` 使用 `highlight_theme: mac light`，呈现三色圆点、语言标题、独立行号栏和浅色代码区；工具栏设置为 `highlight_copy: true`（复制按钮）、`highlight_lang: true`（语言标签）、`highlight_shrink: false`（默认展开带折叠按钮）。
+- `highlight_height_limit: 900`，普通示例尽量完整显示，只对很长的代码块提供展开控件。
 - custom.css 补充规则：新版 highlight.js 的 `.type`、`.title.function_` 着色为 `#6182b8`，对齐旧版解析器的蓝色函数签名。
 - 代码语言标注：bash 命令用 ` ```bash `，C 代码用 ` ```c `，纯示意/文本图用 ` ```text `。
 
 ## 行内代码（custom.css 维护）
 
-行内代码样式为无底色、红色加粗（#ff7c7c）、细边框阴影、consolas 字体，仿 subingwen.cn。规则限定在 `#article-container code`，并用 `#article-container pre code` 恢复代码块内部样式，避免互相污染。暗色模式下代码块背景为 #171717。
+行内代码样式为无底色、红色加粗（#ff7c7c）的轻量标记，不添加外边距、阴影或额外行高。规则限定在 `#article-container code`，并用 `#article-container pre code` 恢复代码块内部样式，避免互相污染。暗色模式下代码块背景为 #171717。
 
 ## 文章封面
 

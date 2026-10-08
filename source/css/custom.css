@@ -1,13 +1,9 @@
-/* 行内代码样式（仿 subingwen.cn）：无底色、红色加粗 */
+/* 行内代码样式（参考 subingwen.cn）：无底色、轻量红字 */
 #article-container code {
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  margin: 0 4px;
+  padding: 2px 4px;
   background: none;
   color: #ff7c7c;
   font-weight: 700;
-  line-height: 2;
-  box-shadow: var(--anzhiyu-shadow-border);
   font-family: consolas, Menlo, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
 }
 
