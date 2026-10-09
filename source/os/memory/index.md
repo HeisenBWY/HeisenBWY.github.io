@@ -27,7 +27,7 @@ mm_struct、VMA、堆与栈、brk、mmap、映射生命周期。
 
 多级页表、MMU、TLB、按需分配、共享零页、写时复制。
 
-- CPU 如何通过页表和 TLB 把虚拟地址转换为物理地址？
+- [CPU 如何通过页表和 TLB 把虚拟地址转换为物理地址？](/posts/linux-cpu-page-table-tlb/)
 - 申请了 1 GiB 内存，为什么 RSS 没有立刻增加？
 - fork 之后，写时复制在什么条件下复制物理页？
 
